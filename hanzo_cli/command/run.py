@@ -9,11 +9,12 @@ from datetime import timedelta
 from urllib import request
 
 import typer
-from hanzo_cli.env_checker import check_comfy_server_running
-from hanzo_cli.workspace_manager import WorkspaceManager
 from rich import print as pprint
 from rich.progress import BarColumn, Column, Progress, Table, TimeElapsedColumn
 from websocket import WebSocket
+
+from hanzo_cli.env_checker import check_comfy_server_running
+from hanzo_cli.workspace_manager import WorkspaceManager
 
 workspace_manager = WorkspaceManager()
 

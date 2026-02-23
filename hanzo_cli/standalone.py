@@ -3,6 +3,7 @@ import subprocess
 from pathlib import Path
 
 import requests
+
 from hanzo_cli.constants import DEFAULT_STANDALONE_PYTHON_DOWNLOAD_VERSION, OS, PROC
 from hanzo_cli.typing import PathLike
 from hanzo_cli.utils import create_tarball, download_url, extract_tarball, get_os, get_proc

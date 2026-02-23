@@ -1,7 +1,8 @@
 from unittest.mock import MagicMock, patch
 
-from hanzo_cli.command.custom_nodes.command import app
 from typer.testing import CliRunner
+
+from hanzo_cli.command.custom_nodes.command import app
 
 runner = CliRunner()
 

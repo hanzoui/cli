@@ -8,10 +8,11 @@ from pathlib import Path
 import git
 import typer
 import yaml
+from rich import print
+
 from hanzo_cli import constants, logging, utils
 from hanzo_cli.config_manager import ConfigManager
 from hanzo_cli.utils import singleton
-from rich import print
 
 
 @dataclass

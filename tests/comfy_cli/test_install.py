@@ -1,4 +1,5 @@
 import pytest
+
 from hanzo_cli.command.install import validate_version
 
 

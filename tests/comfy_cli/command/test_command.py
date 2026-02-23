@@ -2,8 +2,9 @@ import os
 from unittest.mock import patch
 
 import pytest
-from hanzo_cli.cmdline import app, g_exclusivity, g_gpu_exclusivity
 from typer.testing import CliRunner
+
+from hanzo_cli.cmdline import app, g_exclusivity, g_gpu_exclusivity
 
 
 @pytest.fixture(scope="function")

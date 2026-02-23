@@ -6,10 +6,11 @@ import sys
 import uuid
 
 import typer
+from rich import print
+
 from hanzo_cli.config_manager import ConfigManager
 from hanzo_cli.uv import DependencyCompiler
 from hanzo_cli.workspace_manager import WorkspaceManager
-from rich import print
 
 workspace_manager = WorkspaceManager()
 

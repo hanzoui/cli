@@ -1,12 +1,13 @@
 from unittest.mock import Mock, patch
 
 import pytest
+from typer.testing import CliRunner
+
 from hanzo_cli.command.install import (
     PRInfo,
     parse_frontend_pr_reference,
     verify_node_tools,
 )
-from typer.testing import CliRunner
 
 
 @pytest.fixture
