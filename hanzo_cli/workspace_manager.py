@@ -225,7 +225,7 @@ class WorkspaceManager:
                 return comfy_repo.working_dir, WorkspaceType.CURRENT_DIR
             else:
                 return (
-                    os.path.join(current_directory, "Hanzo Studio"),
+                    os.path.join(current_directory, "HanzoStudio"),
                     WorkspaceType.CURRENT_DIR,
                 )
 

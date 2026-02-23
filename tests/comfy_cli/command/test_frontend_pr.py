@@ -19,7 +19,7 @@ def runner():
 def sample_frontend_pr_info():
     return PRInfo(
         number=456,
-        head_repo_url="https://github.com/testuser/HanzoStudio_frontend.git",
+        head_repo_url="https://github.com/testuser/frontend.git",
         head_branch="feature-branch",
         base_repo_url="https://github.com/hanzoui/studio_frontend.git",
         base_branch="main",
@@ -36,14 +36,14 @@ class TestFrontendPRReferenceParsing:
         """Test parsing #123 format for frontend"""
         repo_owner, repo_name, pr_number = parse_frontend_pr_reference("#456")
         assert repo_owner == "hanzoui"
-        assert repo_name == "HanzoStudio_frontend"
+        assert repo_name == "frontend"
         assert pr_number == 456
 
     def test_parse_frontend_user_branch_format(self):
         """Test parsing username:branch format for frontend"""
         repo_owner, repo_name, pr_number = parse_frontend_pr_reference("testuser:feature-branch")
         assert repo_owner == "hanzoui"
-        assert repo_name == "HanzoStudio_frontend"
+        assert repo_name == "frontend"
         assert pr_number is None
 
     def test_parse_frontend_github_url_format(self):
@@ -51,7 +51,7 @@ class TestFrontendPRReferenceParsing:
         url = "https://github.com/hanzoui/studio_frontend/pull/789"
         repo_owner, repo_name, pr_number = parse_frontend_pr_reference(url)
         assert repo_owner == "hanzoui"
-        assert repo_name == "HanzoStudio_frontend"
+        assert repo_name == "frontend"
         assert pr_number == 789
 
     def test_parse_frontend_custom_repo_url(self):

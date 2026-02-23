@@ -28,7 +28,7 @@ def mock_tracking_consent():
 def sample_frontend_pr_info():
     return PRInfo(
         number=789,
-        head_repo_url="https://github.com/testuser/HanzoStudio_frontend.git",
+        head_repo_url="https://github.com/testuser/frontend.git",
         head_branch="test-feature",
         base_repo_url="https://github.com/hanzoui/studio_frontend.git",
         base_branch="main",
@@ -66,7 +66,7 @@ class TestLaunchWithFrontendPR:
     ):
         """Test launch with cached frontend PR"""
         mock_verify.return_value = True
-        mock_parse.return_value = ("hanzoui", "HanzoStudio_frontend", 789)
+        mock_parse.return_value = ("hanzoui", "frontend", 789)
         mock_fetch.return_value = sample_frontend_pr_info
 
         # Mock cache hit
@@ -103,7 +103,7 @@ class TestLaunchWithFrontendPR:
     ):
         """Test launch builds frontend when not cached"""
         mock_verify.return_value = True
-        mock_parse.return_value = ("hanzoui", "HanzoStudio_frontend", 789)
+        mock_parse.return_value = ("hanzoui", "frontend", 789)
         mock_fetch.return_value = sample_frontend_pr_info
         mock_checkout.return_value = True
 

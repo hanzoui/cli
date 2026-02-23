@@ -14,13 +14,13 @@ class PROC(str, Enum):
 
 
 COMFY_GITHUB_URL = "https://github.com/hanzoai/studio"
-COMFY_MANAGER_GITHUB_URL = "https://github.com/ltdrdata/Hanzo Manager"
+COMFY_MANAGER_GITHUB_URL = "https://github.com/ltdrdata/ComfyUI-Manager"
 
 DEFAULT_COMFY_MODEL_PATH = "models"
 DEFAULT_COMFY_WORKSPACE = {
-    OS.WINDOWS: os.path.join(os.path.expanduser("~"), "Documents", "comfy", "Hanzo Studio"),
-    OS.MACOS: os.path.join(os.path.expanduser("~"), "Documents", "comfy", "Hanzo Studio"),
-    OS.LINUX: os.path.join(os.path.expanduser("~"), "comfy", "Hanzo Studio"),
+    OS.WINDOWS: os.path.join(os.path.expanduser("~"), "Documents", "comfy", "HanzoStudio"),
+    OS.MACOS: os.path.join(os.path.expanduser("~"), "Documents", "comfy", "HanzoStudio"),
+    OS.LINUX: os.path.join(os.path.expanduser("~"), "comfy", "HanzoStudio"),
 }
 
 DEFAULT_CONFIG = {
@@ -57,10 +57,10 @@ COMFY_ORIGIN_URL_CHOICES = {
     "git@github.com:drip-art/comfy.git",
     "https://github.com/hanzoui/studio.git",
     "https://github.com/hanzoai/studio.git",
-    "https://github.com/drip-art/HanzoStudio.git",
+    "https://github.com/drip-art/ComfyUI.git",
     "https://github.com/hanzoui/studio",
     "https://github.com/hanzoai/studio",
-    "https://github.com/drip-art/HanzoStudio",
+    "https://github.com/drip-art/ComfyUI",
 }
 
 

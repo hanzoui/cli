@@ -36,14 +36,14 @@ class TestPRReferenceParsing:
         """Test parsing #123 format"""
         repo_owner, repo_name, pr_number = parse_pr_reference("#123")
         assert repo_owner == "hanzoai"
-        assert repo_name == "Hanzo Studio"
+        assert repo_name == "studio"
         assert pr_number == 123
 
     def test_parse_user_branch_format(self):
         """Test parsing username:branch format"""
         repo_owner, repo_name, pr_number = parse_pr_reference("jtydhr88:load-3d-nodes")
         assert repo_owner == "jtydhr88"
-        assert repo_name == "Hanzo Studio"
+        assert repo_name == "studio"
         assert pr_number is None
 
     def test_parse_github_url_format(self):
@@ -51,7 +51,7 @@ class TestPRReferenceParsing:
         url = "https://github.com/hanzoai/studio/pull/456"
         repo_owner, repo_name, pr_number = parse_pr_reference(url)
         assert repo_owner == "hanzoai"
-        assert repo_name == "Hanzo Studio"
+        assert repo_name == "studio"
         assert pr_number == 456
 
     def test_parse_invalid_format(self):
@@ -86,7 +86,7 @@ class TestGitHubAPIIntegration:
         }
         mock_get.return_value = mock_response
 
-        result = fetch_pr_info("hanzoai", "Hanzo Studio", 123)
+        result = fetch_pr_info("hanzoai", "studio", 123)
 
         assert result.number == 123
         assert result.title == "Add 3D node loading support"
@@ -103,7 +103,7 @@ class TestGitHubAPIIntegration:
         mock_get.return_value = mock_response
 
         with pytest.raises(Exception, match="Failed to fetch PR"):
-            fetch_pr_info("hanzoai", "Hanzo Studio", 999)
+            fetch_pr_info("hanzoai", "studio", 999)
 
     @patch("requests.get")
     def test_fetch_pr_info_rate_limit(self, mock_get):
@@ -114,7 +114,7 @@ class TestGitHubAPIIntegration:
         mock_get.return_value = mock_response
 
         with pytest.raises(Exception, match="Primary rate limit from Github exceeded!"):
-            fetch_pr_info("hanzoai", "Hanzo Studio", 123)
+            fetch_pr_info("hanzoai", "studio", 123)
 
     @patch("requests.get")
     def test_find_pr_by_branch_success(self, mock_get):
@@ -138,7 +138,7 @@ class TestGitHubAPIIntegration:
         ]
         mock_get.return_value = mock_response
 
-        result = find_pr_by_branch("hanzoai", "Hanzo Studio", "testuser", "test-branch")
+        result = find_pr_by_branch("hanzoai", "studio", "testuser", "test-branch")
 
         assert result is not None
         assert result.number == 456
@@ -154,7 +154,7 @@ class TestGitHubAPIIntegration:
         mock_response.json.return_value = []
         mock_get.return_value = mock_response
 
-        result = find_pr_by_branch("hanzoai", "Hanzo Studio", "testuser", "nonexistent-branch")
+        result = find_pr_by_branch("hanzoai", "studio", "testuser", "nonexistent-branch")
         assert result is None
 
     @patch("requests.get")
@@ -162,7 +162,7 @@ class TestGitHubAPIIntegration:
         """Test error when searching PR by branch"""
         mock_get.side_effect = requests.RequestException("Network error")
 
-        result = find_pr_by_branch("hanzoai", "Hanzo Studio", "testuser", "test-branch")
+        result = find_pr_by_branch("hanzoai", "studio", "testuser", "test-branch")
         assert result is None
 
 
@@ -259,7 +259,7 @@ class TestHandlePRCheckout:
         sample_pr_info,
     ):
         """Test successful PR checkout handling"""
-        mock_parse.return_value = ("jtydhr88", "Hanzo Studio", 123)
+        mock_parse.return_value = ("jtydhr88", "studio", 123)
         mock_fetch.return_value = sample_pr_info
         mock_exists.side_effect = [True, False]  # Parent exists, repo doesn't
         mock_confirm.return_value = True
@@ -341,7 +341,7 @@ class TestEdgeCases:
         """Test parsing with whitespace"""
         repo_owner, repo_name, pr_number = parse_pr_reference("  #123  ")
         assert repo_owner == "hanzoai"
-        assert repo_name == "Hanzo Studio"
+        assert repo_name == "studio"
         assert pr_number == 123
 
     @patch("requests.get")

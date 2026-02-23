@@ -319,7 +319,7 @@ def handle_pr_checkout(pr_ref: str, comfy_path: str) -> str:
             pr_info = fetch_pr_info(repo_owner, repo_name, pr_number)
         else:
             username, branch = pr_ref.split(":", 1)
-            pr_info = find_pr_by_branch("hanzoai", "Hanzo Studio", username, branch)
+            pr_info = find_pr_by_branch("hanzoai", "studio", username, branch)
 
         if not pr_info:
             rprint(f"[bold red]PR not found: {pr_ref}[/bold red]")
@@ -449,7 +449,7 @@ def checkout_stable_comfyui(version: str, repo_dir: str):
     """
     rprint(f"Looking for Hanzo Studio version '{version}'...")
     if version == "latest":
-        selected_release = get_latest_release("hanzoai", "Hanzo Studio")
+        selected_release = get_latest_release("hanzoai", "studio")
         if selected_release is None:
             rprint(f"Error: No release found for version '{version}'.")
             sys.exit(1)
@@ -526,11 +526,11 @@ def parse_pr_reference(pr_ref: str) -> tuple[str, str, int | None]:
 
     elif pr_ref.startswith("#"):
         pr_number = int(pr_ref[1:])
-        return "hanzoai", "Hanzo Studio", pr_number
+        return "hanzoai", "studio", pr_number
 
     elif ":" in pr_ref:
         username, branch = pr_ref.split(":", 1)
-        return username, "Hanzo Studio", None
+        return username, "studio", None
 
     else:
         raise ValueError(f"Invalid PR reference format: {pr_ref}")
@@ -911,11 +911,11 @@ def parse_frontend_pr_reference(pr_ref: str) -> tuple[str, str, int | None]:
 
     elif pr_ref.startswith("#"):
         pr_number = int(pr_ref[1:])
-        return "hanzoui", "HanzoStudio_frontend", pr_number
+        return "hanzoui", "frontend", pr_number
 
     elif ":" in pr_ref:
         username, branch = pr_ref.split(":", 1)
-        return "hanzoui", "HanzoStudio_frontend", None
+        return "hanzoui", "frontend", None
 
     else:
         raise ValueError(f"Invalid frontend PR reference format: {pr_ref}")
