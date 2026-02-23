@@ -1,6 +1,6 @@
 # Comfy-Cli: A Command Line Tool for Hanzo Studio
 
-[![Test Hanzo Studio Example Workflows](https://github.com/hanzoui/studio-Mirror/actions/workflows/test-workflows.yaml/badge.svg)](https://github.com/hanzoui/studio-Mirror/actions/workflows/test-workflows.yaml)
+[![Test Hanzo Studio Example Workflows](https://github.com/hanzoui/mirror/actions/workflows/test-workflows.yaml/badge.svg)](https://github.com/hanzoui/mirror/actions/workflows/test-workflows.yaml)
 
 [![codecov](https://codecov.io/github/hanzoui/cli/graph/badge.svg?token=S64WJWD2ZX)](https://codecov.io/github/hanzoui/cli)
 
