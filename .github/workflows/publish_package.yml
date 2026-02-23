@@ -1,3 +1,4 @@
+# Secrets: Hanzo KMS (kms.hanzo.ai) — auth via Hanzo IAM
 name: Publish and Update Formula
 
 on:
@@ -84,11 +85,18 @@ jobs:
     runs-on: macos-latest  # Use macOS runner where Homebrew is pre-installed
     needs: build-n-publish-pypi
     steps:
+      - name: Fetch secrets from Hanzo KMS
+        id: kms
+        uses: hanzoui/.github/actions/kms-secrets@main
+        with:
+          kms_client_id: ${{ secrets.KMS_CLIENT_ID }}
+          kms_client_secret: ${{ secrets.KMS_CLIENT_SECRET }}
+          secrets: 'COMMITTER_TOKEN'
       - name: Checkout code
         uses: actions/checkout@v6
         with:
           repository: 'hanzoui/homebrew-cli'
-          token: ${{ secrets.COMMITTER_TOKEN }}
+          token: ${{ steps.kms.outputs.COMMITTER_TOKEN }}
           path: 'homebrew-repo'
 
       - name: Extract version from tag
@@ -133,7 +141,7 @@ jobs:
           GIT_COMMITTER_EMAIL: github-actions@github.com
           GIT_AUTHOR_NAME: github-actions
           GIT_AUTHOR_EMAIL: github-actions@github.com
-          GITHUB_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.kms.outputs.COMMITTER_TOKEN }}
 
 
   test-homebrew-installation:
@@ -145,7 +153,7 @@ jobs:
         run: brew tap hanzoui/cli
 
       - name: Install hanzo-cli latest via Homebrew
-        run: brew install comfy-org/hanzo-cli/hanzo-cli
+        run: brew install hanzoui/hanzo-cli/hanzo-cli
 
       - name: Test hanzo-cli latest Help
         run: comfy --help

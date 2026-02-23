@@ -1,3 +1,4 @@
+# Secrets: Hanzo KMS (kms.hanzo.ai) — auth via Hanzo IAM
 name: Run pytest
 
 on:
@@ -18,6 +19,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Fetch secrets from Hanzo KMS
+        id: kms
+        uses: hanzoui/.github/actions/kms-secrets@main
+        with:
+          kms_client_id: ${{ secrets.KMS_CLIENT_ID }}
+          kms_client_secret: ${{ secrets.KMS_CLIENT_SECRET }}
+          secrets: 'CODECOV_TOKEN'
       - uses: actions/checkout@v6
 
       - name: Set up Python
@@ -40,6 +48,6 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ steps.kms.outputs.CODECOV_TOKEN }}
           fail_ci_if_error: true
           verbose: true
