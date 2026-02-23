@@ -939,7 +939,7 @@ def scaffold_cookiecutter():
 
     try:
         cookiecutter.main.cookiecutter(
-            "gh:comfy-org/cookiecutter-comfy-extension",
+            "gh:hanzoui/cookiecutter-extension",
             overwrite_if_exists=True,
         )
         console.print("[bold green]✓ Custom node project created successfully![/bold green]")

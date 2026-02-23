@@ -52,8 +52,8 @@ def test_install_here(cmd, runner, mock_execute, mock_prompt_select_enum):
     args, _ = mock_execute.call_args
     url, manager_url, comfy_path, *_ = args
     assert url == "https://github.com/hanzoai/studio"
-    assert manager_url == "https://github.com/ltdrdata/Hanzo Manager"
-    assert comfy_path == os.path.join(os.getcwd(), "Hanzo Studio")
+    assert manager_url == "https://github.com/ltdrdata/ComfyUI-Manager"
+    assert comfy_path == os.path.join(os.getcwd(), "HanzoStudio")
 
 
 def test_version(runner):
