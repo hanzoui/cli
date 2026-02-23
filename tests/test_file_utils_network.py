@@ -4,7 +4,6 @@ from unittest.mock import Mock, patch
 
 import pytest
 import requests
-
 from hanzo_cli.file_utils import (
     DownloadException,
     check_unauthorized,

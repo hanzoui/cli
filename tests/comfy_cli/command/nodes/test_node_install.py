@@ -2,9 +2,8 @@ import re
 import subprocess
 from unittest.mock import patch
 
-from typer.testing import CliRunner
-
 from hanzo_cli.command.custom_nodes.command import app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 

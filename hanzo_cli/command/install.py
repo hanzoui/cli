@@ -8,11 +8,6 @@ from urllib.parse import urlparse
 import requests
 import semver
 import typer
-from rich import print as rprint
-from rich.console import Console
-from rich.panel import Panel
-from rich.prompt import Confirm
-
 from hanzo_cli import constants, ui
 from hanzo_cli.command.custom_nodes.command import update_node_id_cache
 from hanzo_cli.command.github.pr_info import PRInfo
@@ -20,6 +15,10 @@ from hanzo_cli.constants import GPU_OPTION
 from hanzo_cli.git_utils import checkout_pr, git_checkout_tag
 from hanzo_cli.uv import DependencyCompiler
 from hanzo_cli.workspace_manager import WorkspaceManager, check_comfy_repo
+from rich import print as rprint
+from rich.console import Console
+from rich.panel import Panel
+from rich.prompt import Confirm
 
 workspace_manager = WorkspaceManager()
 console = Console()
@@ -175,7 +174,9 @@ def pip_install_hanzo_studio_dependencies(
         return
     result = subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=False)
     if result.returncode != 0:
-        rprint("Failed to install Hanzo Studio dependencies. Please check your environment (`comfy env`) and try again.")
+        rprint(
+            "Failed to install Hanzo Studio dependencies. Please check your environment (`comfy env`) and try again."
+        )
         sys.exit(1)
 
 
@@ -249,7 +250,9 @@ def execute(
         subprocess.run(["git", "checkout", commit], check=True)
 
     if not fast_deps:
-        pip_install_hanzo_studio_dependencies(repo_dir, gpu, plat, cuda_version, skip_torch_or_directml, skip_requirement)
+        pip_install_hanzo_studio_dependencies(
+            repo_dir, gpu, plat, cuda_version, skip_torch_or_directml, skip_requirement
+        )
 
     WorkspaceManager().set_recent_workspace(repo_dir)
     workspace_manager.setup_workspace_manager(specified_workspace=repo_dir)

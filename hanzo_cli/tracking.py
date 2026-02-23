@@ -3,11 +3,10 @@ import logging as logginglib
 import uuid
 
 import typer
-from mixpanel import Mixpanel
-
 from hanzo_cli import constants, logging, ui
 from hanzo_cli.config_manager import ConfigManager
 from hanzo_cli.workspace_manager import WorkspaceManager
+from mixpanel import Mixpanel
 
 # Ignore logs from urllib3 that Mixpanel uses.
 logginglib.getLogger("urllib3").setLevel(logginglib.ERROR)

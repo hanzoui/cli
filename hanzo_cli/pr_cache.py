@@ -11,9 +11,8 @@ import shutil
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from rich import print as rprint
-
 from hanzo_cli.config_manager import ConfigManager
+from rich import print as rprint
 
 
 class PRCache:

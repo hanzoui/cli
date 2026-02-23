@@ -8,15 +8,14 @@ import threading
 import uuid
 
 import typer
-from rich import print
-from rich.console import Console
-from rich.panel import Panel
-
 from hanzo_cli import constants, utils
 from hanzo_cli.config_manager import ConfigManager
 from hanzo_cli.env_checker import check_comfy_server_running
 from hanzo_cli.update import check_for_updates
 from hanzo_cli.workspace_manager import WorkspaceManager, WorkspaceType
+from rich import print
+from rich.console import Console
+from rich.panel import Panel
 
 workspace_manager = WorkspaceManager()
 console = Console()

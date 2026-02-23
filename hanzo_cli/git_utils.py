@@ -1,11 +1,10 @@
 import os
 import subprocess
 
+from hanzo_cli.command.github.pr_info import PRInfo
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
-
-from hanzo_cli.command.github.pr_info import PRInfo
 
 console = Console()
 
