@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from comfy_cli import file_utils
+from hanzo_cli import file_utils
 
 
 @pytest.fixture(autouse=True)

@@ -8,7 +8,7 @@ from rich.console import Console
 from rich.progress import Progress
 from rich.table import Table
 
-from comfy_cli.workspace_manager import WorkspaceManager
+from hanzo_cli.workspace_manager import WorkspaceManager
 
 console = Console()
 workspace_manager = WorkspaceManager()

@@ -7,8 +7,8 @@ from typing import Annotated, Literal, NamedTuple
 
 import typer
 
-from comfy_cli.command.custom_nodes.cm_cli_util import execute_cm_cli
-from comfy_cli.command.launch import launch as launch_command
+from hanzo_cli.command.custom_nodes.cm_cli_util import execute_cm_cli
+from hanzo_cli.command.launch import launch as launch_command
 
 bisect_app = typer.Typer()
 
@@ -28,7 +28,7 @@ class BisectState(NamedTuple):
     # The active set of nodes to test
     active: list[str]
 
-    # The arguments to pass to the ComfyUI launch command
+    # The arguments to pass to the Hanzo Studio launch command
     launch_args: list[str] = []
 
     def good(self) -> BisectState:
@@ -123,7 +123,7 @@ set of nodes to test: {len(self.active)}
 
 
 @bisect_app.command(
-    help="Start a new bisect session with optionally pinned nodes to always enable, and optional ComfyUI launch args."
+    help="Start a new bisect session with optionally pinned nodes to always enable, and optional Hanzo Studio launch args."
     + "?[--pinned-nodes PINNED_NODES]"
     + "?[-- <extra args ...>]"
 )

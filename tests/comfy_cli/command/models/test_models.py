@@ -1,4 +1,4 @@
-from comfy_cli.command.models.models import check_civitai_url, check_huggingface_url
+from hanzo_cli.command.models.models import check_civitai_url, check_huggingface_url
 
 
 def test_valid_model_url():

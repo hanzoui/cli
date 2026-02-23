@@ -5,9 +5,9 @@ import uuid
 import typer
 from mixpanel import Mixpanel
 
-from comfy_cli import constants, logging, ui
-from comfy_cli.config_manager import ConfigManager
-from comfy_cli.workspace_manager import WorkspaceManager
+from hanzo_cli import constants, logging, ui
+from hanzo_cli.config_manager import ConfigManager
+from hanzo_cli.workspace_manager import WorkspaceManager
 
 # Ignore logs from urllib3 that Mixpanel uses.
 logginglib.getLogger("urllib3").setLevel(logginglib.ERROR)

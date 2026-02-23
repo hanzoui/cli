@@ -8,9 +8,9 @@ from unittest.mock import Mock, patch
 import pytest
 from typer.testing import CliRunner
 
-from comfy_cli.cmdline import app
-from comfy_cli.command.install import PRInfo, handle_temporary_frontend_pr
-from comfy_cli.pr_cache import PRCache
+from hanzo_cli.cmdline import app
+from hanzo_cli.command.install import PRInfo, handle_temporary_frontend_pr
+from hanzo_cli.pr_cache import PRCache
 
 
 @pytest.fixture
@@ -20,7 +20,7 @@ def runner():
 
 @pytest.fixture(autouse=True)
 def mock_tracking_consent():
-    with patch("comfy_cli.tracking.prompt_tracking_consent"):
+    with patch("hanzo_cli.tracking.prompt_tracking_consent"):
         yield
 
 
@@ -28,9 +28,9 @@ def mock_tracking_consent():
 def sample_frontend_pr_info():
     return PRInfo(
         number=789,
-        head_repo_url="https://github.com/testuser/ComfyUI_frontend.git",
+        head_repo_url="https://github.com/testuser/Hanzo Studio_frontend.git",
         head_branch="test-feature",
-        base_repo_url="https://github.com/Comfy-Org/ComfyUI_frontend.git",
+        base_repo_url="https://github.com/hanzoui/studio_frontend.git",
         base_branch="main",
         title="Test feature for frontend",
         user="testuser",
@@ -40,7 +40,7 @@ def sample_frontend_pr_info():
 
 @pytest.fixture
 def mock_pr_cache():
-    with patch("comfy_cli.pr_cache.PRCache") as mock_cache_cls:
+    with patch("hanzo_cli.pr_cache.PRCache") as mock_cache_cls:
         mock_cache = Mock()
         mock_cache_cls.return_value = mock_cache
         yield mock_cache
@@ -49,7 +49,7 @@ def mock_pr_cache():
 class TestLaunchWithFrontendPR:
     """Test launching with temporary frontend PR"""
 
-    @patch("comfy_cli.command.install.verify_node_tools")
+    @patch("hanzo_cli.command.install.verify_node_tools")
     def test_launch_frontend_pr_without_node(self, mock_verify):
         """Test launch with frontend PR when Node.js is missing"""
         mock_verify.return_value = False
@@ -58,15 +58,15 @@ class TestLaunchWithFrontendPR:
         assert result is None
         mock_verify.assert_called_once()
 
-    @patch("comfy_cli.command.install.verify_node_tools")
-    @patch("comfy_cli.command.install.parse_frontend_pr_reference")
-    @patch("comfy_cli.command.install.fetch_pr_info")
+    @patch("hanzo_cli.command.install.verify_node_tools")
+    @patch("hanzo_cli.command.install.parse_frontend_pr_reference")
+    @patch("hanzo_cli.command.install.fetch_pr_info")
     def test_launch_frontend_pr_with_cache_hit(
         self, mock_fetch, mock_parse, mock_verify, mock_pr_cache, sample_frontend_pr_info
     ):
         """Test launch with cached frontend PR"""
         mock_verify.return_value = True
-        mock_parse.return_value = ("Comfy-Org", "ComfyUI_frontend", 789)
+        mock_parse.return_value = ("hanzoui", "Hanzo Studio_frontend", 789)
         mock_fetch.return_value = sample_frontend_pr_info
 
         # Mock cache hit
@@ -83,11 +83,11 @@ class TestLaunchWithFrontendPR:
     @patch("pathlib.Path.mkdir")
     @patch("os.chdir")
     @patch("subprocess.run")
-    @patch("comfy_cli.command.install.checkout_pr")
-    @patch("comfy_cli.command.install.clone_comfyui")
-    @patch("comfy_cli.command.install.verify_node_tools")
-    @patch("comfy_cli.command.install.parse_frontend_pr_reference")
-    @patch("comfy_cli.command.install.fetch_pr_info")
+    @patch("hanzo_cli.command.install.checkout_pr")
+    @patch("hanzo_cli.command.install.clone_comfyui")
+    @patch("hanzo_cli.command.install.verify_node_tools")
+    @patch("hanzo_cli.command.install.parse_frontend_pr_reference")
+    @patch("hanzo_cli.command.install.fetch_pr_info")
     def test_launch_frontend_pr_cache_miss_builds(
         self,
         mock_fetch,
@@ -103,7 +103,7 @@ class TestLaunchWithFrontendPR:
     ):
         """Test launch builds frontend when not cached"""
         mock_verify.return_value = True
-        mock_parse.return_value = ("Comfy-Org", "ComfyUI_frontend", 789)
+        mock_parse.return_value = ("hanzoui", "Hanzo Studio_frontend", 789)
         mock_fetch.return_value = sample_frontend_pr_info
         mock_checkout.return_value = True
 
@@ -240,7 +240,7 @@ class TestPRCacheCommands:
 
     def test_pr_cache_list_command(self, runner):
         """Test pr-cache list command"""
-        with patch("comfy_cli.command.pr_command.PRCache") as mock_cache_cls:
+        with patch("hanzo_cli.command.pr_command.PRCache") as mock_cache_cls:
             mock_cache = Mock()
             mock_cache.list_cached_frontends.return_value = []
             mock_cache_cls.return_value = mock_cache
@@ -251,7 +251,7 @@ class TestPRCacheCommands:
 
     def test_pr_cache_clean_command_with_confirmation(self, runner):
         """Test pr-cache clean command with confirmation"""
-        with patch("comfy_cli.command.pr_command.PRCache") as mock_cache_cls:
+        with patch("hanzo_cli.command.pr_command.PRCache") as mock_cache_cls:
             mock_cache = Mock()
             mock_cache.list_cached_frontends.return_value = [
                 {"pr_number": 123, "pr_title": "Test PR"}  # Mock some cached items
@@ -266,7 +266,7 @@ class TestPRCacheCommands:
 
     def test_pr_cache_clean_command_with_yes_flag(self, runner):
         """Test pr-cache clean command with --yes flag"""
-        with patch("comfy_cli.command.pr_command.PRCache") as mock_cache_cls:
+        with patch("hanzo_cli.command.pr_command.PRCache") as mock_cache_cls:
             mock_cache = Mock()
             mock_cache_cls.return_value = mock_cache
 

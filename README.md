@@ -1,36 +1,36 @@
-# Comfy-Cli: A Command Line Tool for ComfyUI
+# Comfy-Cli: A Command Line Tool for Hanzo Studio
 
-[![Test ComfyUI Example Workflows](https://github.com/Comfy-Org/ComfyUI-Mirror/actions/workflows/test-workflows.yaml/badge.svg)](https://github.com/Comfy-Org/ComfyUI-Mirror/actions/workflows/test-workflows.yaml)
+[![Test Hanzo Studio Example Workflows](https://github.com/hanzoui/studio-Mirror/actions/workflows/test-workflows.yaml/badge.svg)](https://github.com/hanzoui/studio-Mirror/actions/workflows/test-workflows.yaml)
 
-[![codecov](https://codecov.io/github/Comfy-Org/comfy-cli/graph/badge.svg?token=S64WJWD2ZX)](https://codecov.io/github/Comfy-Org/comfy-cli)
+[![codecov](https://codecov.io/github/hanzoui/cli/graph/badge.svg?token=S64WJWD2ZX)](https://codecov.io/github/hanzoui/cli)
 
-comfy-cli is a command line tool that helps users easily install and manage
-[ComfyUI](https://github.com/comfyanonymous/ComfyUI), a powerful open-source
-machine learning framework. With comfy-cli, you can quickly set up ComfyUI,
+hanzo-cli is a command line tool that helps users easily install and manage
+[Hanzo Studio](https://github.com/hanzoai/studio), a powerful open-source
+machine learning framework. With hanzo-cli, you can quickly set up Hanzo Studio,
 install packages, and manage custom nodes, all from the convenience of your
 terminal.
 
 ## Demo
 
-<img src="https://github.com/yoland68/comfy-cli/raw/main/assets/comfy-demo.gif" width="400" alt="Comfy Command Demo">
+<img src="https://github.com/yoland68/hanzo-cli/raw/main/assets/comfy-demo.gif" width="400" alt="Comfy Command Demo">
 
 ## Features
 
-- 🚀 Easy installation of ComfyUI with a single command
-- 📦 Seamless package management for ComfyUI extensions and dependencies
-- 🔧 Custom node management for extending ComfyUI's functionality
+- 🚀 Easy installation of Hanzo Studio with a single command
+- 📦 Seamless package management for Hanzo Studio extensions and dependencies
+- 🔧 Custom node management for extending Hanzo Studio's functionality
 - 🗄️ Download checkpoints and save model hash
 - 💻 Cross-platform compatibility (Windows, macOS, Linux)
 - 📖 Comprehensive documentation and examples
-- 🎉 install pull request to ComfyUI automatically
+- 🎉 install pull request to Hanzo Studio automatically
 
 ## Installation
 
 1. (Recommended, but not necessary) Enable virtual environment ([venv](https://docs.python.org/3/library/venv.html)/[conda](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html))
 
-2. To install comfy-cli, make sure you have Python 3.9 or higher installed on your system. Then, run the following command:
+2. To install hanzo-cli, make sure you have Python 3.9 or higher installed on your system. Then, run the following command:
 
-   `pip install comfy-cli`
+   `pip install hanzo-cli`
 
 ### Shell Autocomplete
 
@@ -42,38 +42,38 @@ This enables you to type `comfy [TAP]` to autocomplete commands and options
 
 ## Usage
 
-### Installing ComfyUI
+### Installing Hanzo Studio
 
-To install ComfyUI using comfy, simply run:
+To install Hanzo Studio using comfy, simply run:
 
 `comfy install`
 
-This command will download and set up the latest version of ComfyUI and ComfyUI-Manager on your
-system. If you run in a ComfyUI repo that has already been setup. The command
+This command will download and set up the latest version of Hanzo Studio and Hanzo Manager on your
+system. If you run in a Hanzo Studio repo that has already been setup. The command
 will simply update the comfy.yaml file to reflect the local setup
 
-- `comfy install --skip-manager`: Install ComfyUI without ComfyUI-Manager.
-- `comfy --workspace=<path> install`: Install ComfyUI into `<path>/ComfyUI`.
+- `comfy install --skip-manager`: Install Hanzo Studio without Hanzo Manager.
+- `comfy --workspace=<path> install`: Install Hanzo Studio into `<path>/Hanzo Studio`.
 - For `comfy install`, if no path specification like `--workspace, --recent, or --here` is provided, it will be implicitly installed in `<HOME>/comfy`.
 
 ### Specifying execution path
 
-- You can specify the path of ComfyUI where the command will be applied through path indicators as follows:
-  - `comfy --workspace=<path>`: Run from the ComfyUI installed in the specified workspace.
-  - `comfy --recent`: Run from the recently executed or installed ComfyUI.
-  - `comfy --here`: Run from the ComfyUI located in the current directory.
+- You can specify the path of Hanzo Studio where the command will be applied through path indicators as follows:
+  - `comfy --workspace=<path>`: Run from the Hanzo Studio installed in the specified workspace.
+  - `comfy --recent`: Run from the recently executed or installed Hanzo Studio.
+  - `comfy --here`: Run from the Hanzo Studio located in the current directory.
 - --workspace, --recent, and --here options cannot be used simultaneously.
 - If there is no path indicator, the following priority applies:
 
-  - Run from the default ComfyUI at the path specified by `comfy set-default <path>`.
-  - Run from the recently executed or installed ComfyUI.
-  - Run from the ComfyUI located in the current directory.
+  - Run from the default Hanzo Studio at the path specified by `comfy set-default <path>`.
+  - Run from the recently executed or installed Hanzo Studio.
+  - Run from the Hanzo Studio located in the current directory.
 
-- Example 1: To run the recently executed ComfyUI:
+- Example 1: To run the recently executed Hanzo Studio:
   - `comfy --recent launch`
-- Example 2: To install a package on the ComfyUI in the current directory:
-  - `comfy --here node install ComfyUI-Impact-Pack`
-- Example 3: To update the automatically selected path of ComfyUI and custom nodes based on priority:
+- Example 2: To install a package on the Hanzo Studio in the current directory:
+  - `comfy --here node install Hanzo Studio-Impact-Pack`
+- Example 3: To update the automatically selected path of Hanzo Studio and custom nodes based on priority:
 
   - `comfy node update all`
 
@@ -82,19 +82,19 @@ will simply update the comfy.yaml file to reflect the local setup
 
 ### Default Setup
 
-The default sets the option that will be executed by default when no specific workspace's ComfyUI has been set for the command.
+The default sets the option that will be executed by default when no specific workspace's Hanzo Studio has been set for the command.
 
 `comfy set-default <workspace path> ?[--launch-extras="<extra args>"]`
 
 - `--launch-extras` option specifies extra args that are applied only during launch by default. However, if extras are specified at the time of launch, this setting is ignored.
 
-### Launch ComfyUI
+### Launch Hanzo Studio
 
-Comfy provides commands that allow you to easily run the installed ComfyUI.
+Comfy provides commands that allow you to easily run the installed Hanzo Studio.
 
 `comfy launch`
 
-- To run with default ComfyUI options:
+- To run with default Hanzo Studio options:
 
   `comfy launch -- <extra args...>`
 
@@ -108,19 +108,19 @@ Comfy provides commands that allow you to easily run the installed ComfyUI.
 
   `comfy --workspace=~/comfy launch --background -- --listen 10.0.0.10 --port 8000`
 
-  - Instances launched with `--background` are displayed in the "Background ComfyUI" section of `comfy env`, providing management functionalities for a single background instance only.
-  - Since "Comfy Server Running" in `comfy env` only shows the default port 8188, it doesn't display ComfyUI running on a different port.
-  - Background-running ComfyUI can be stopped with `comfy stop`.
+  - Instances launched with `--background` are displayed in the "Background Hanzo Studio" section of `comfy env`, providing management functionalities for a single background instance only.
+  - Since "Comfy Server Running" in `comfy env` only shows the default port 8188, it doesn't display Hanzo Studio running on a different port.
+  - Background-running Hanzo Studio can be stopped with `comfy stop`.
 
-- to run ComfyUI with a specific pull request:
+- to run Hanzo Studio with a specific pull request:
 
   `comfy install --pr "#1234"`
 
   `comfy install --pr "jtydhr88:load-3d-nodes"`
 
-  `comfy install --pr "https://github.com/comfyanonymous/ComfyUI/pull/1234"`
+  `comfy install --pr "https://github.com/hanzoai/studio/pull/1234"`
 
-  - If you want to run ComfyUI with a specific pull request, you can use the `--pr` option. This will automatically install the specified pull request and run ComfyUI with it.
+  - If you want to run Hanzo Studio with a specific pull request, you can use the `--pr` option. This will automatically install the specified pull request and run Hanzo Studio with it.
   - Important: When using --pr, any --version and --commit parameters are ignored. The PR branch will be checked out regardless of version settings.
 
 - To test a frontend pull request:
@@ -128,7 +128,7 @@ Comfy provides commands that allow you to easily run the installed ComfyUI.
   ```
   comfy launch --frontend-pr "#456"
   comfy launch --frontend-pr "username:branch-name"
-  comfy launch --frontend-pr "https://github.com/Comfy-Org/ComfyUI_frontend/pull/456"
+  comfy launch --frontend-pr "https://github.com/hanzoui/studio_frontend/pull/456"
   ```
 
   - The `--frontend-pr` option allows you to test frontend PRs by automatically cloning, building, and using the frontend for that session.
@@ -149,7 +149,7 @@ Comfy provides commands that allow you to easily run the installed ComfyUI.
 
 ### Managing Custom Nodes
 
-comfy provides a convenient way to manage custom nodes for extending ComfyUI's functionality. Here are some examples:
+comfy provides a convenient way to manage custom nodes for extending Hanzo Studio's functionality. Here are some examples:
 
 - Show custom nodes' information:
 
@@ -165,7 +165,7 @@ comfy node [show|simple-show] [installed|enabled|not-installed|disabled|all|snap
 
   `comfy node update all`
 
-  `comfy node install ComfyUI-Impact-Pack`
+  `comfy node install Hanzo Studio-Impact-Pack`
 
 - Managing snapshot:
 
@@ -188,7 +188,7 @@ comfy node [show|simple-show] [installed|enabled|not-installed|disabled|all|snap
 If you encounter bugs only with custom nodes enabled, and want to find out which custom node(s) causes the bug,
 the bisect tool can help you pinpoint the custom node that causes the issue.
 
-- `comfy node bisect start`: Start a new bisect session with optional ComfyUI launch args. It automatically marks the starting state as bad, and takes all enabled nodes when the command executes as the test set.
+- `comfy node bisect start`: Start a new bisect session with optional Hanzo Studio launch args. It automatically marks the starting state as bad, and takes all enabled nodes when the command executes as the test set.
 - `comfy node bisect good`: Mark the current active set as good, indicating the problem is not within the test set.
 - `comfy node bisect bad`: Mark the current active set as bad, indicating the problem is within the test set.
 - `comfy node bisect reset`: Reset the current bisect session.
@@ -211,13 +211,13 @@ the bisect tool can help you pinpoint the custom node that causes the issue.
 
   `comfy model list ?[--relative-path <PATH>]`
 
-### Managing ComfyUI-Manager
+### Managing Hanzo Manager
 
-- disable GUI of ComfyUI-Manager (disable Manager menu and Server)
+- disable GUI of Hanzo Manager (disable Manager menu and Server)
 
   `comfy manager disable-gui`
 
-- enable GUI of ComfyUI-Manager
+- enable GUI of Hanzo Manager
 
   `comfy manager enable-gui`
 
@@ -244,7 +244,7 @@ models:
   - model:
   ...
 
-# compatible with ComfyUI-Manager's .yaml snapshot
+# compatible with Hanzo Manager's .yaml snapshot
 custom_nodes:
   comfyui: [commit hash]
   file_custom_nodes:
@@ -270,19 +270,19 @@ Check out the usage here: [Mixpanel Board](https://mixpanel.com/p/13hGfPfEPdRkjP
 
 ## Contributing
 
-We welcome contributions to comfy-cli! If you have any ideas, suggestions, or
+We welcome contributions to hanzo-cli! If you have any ideas, suggestions, or
 bug reports, please open an issue on our [GitHub
-repository](https://github.com/yoland68/comfy-cli/issues). If you'd like to contribute code,
+repository](https://github.com/yoland68/hanzo-cli/issues). If you'd like to contribute code,
 please fork the repository and submit a pull request.
 
 Check out the [Dev Guide](/DEV_README.md) for more details.
 
 ## License
 
-comfy is released under the [GNU General Public License v3.0](https://github.com/yoland68/comfy-cli/blob/master/LICENSE).
+comfy is released under the [GNU General Public License v3.0](https://github.com/yoland68/hanzo-cli/blob/master/LICENSE).
 
 ## Support
 
-If you encounter any issues or have questions about comfy-cli, please [open an issue](https://github.com/comfy-cli/issues) on our GitHub repository or contact us on [Discord](https://discord.com/invite/comfyorg). We'll be happy to assist you!
+If you encounter any issues or have questions about hanzo-cli, please [open an issue](https://github.com/hanzo-cli/issues) on our GitHub repository or contact us on [Discord](https://discord.com/invite/hanzoai). We'll be happy to assist you!
 
-Happy diffusing with ComfyUI and comfy-cli! 🎉
+Happy diffusing with Hanzo Studio and hanzo-cli! 🎉

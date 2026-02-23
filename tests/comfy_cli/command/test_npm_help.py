@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import pytest
 
-from comfy_cli.command.install import _print_npm_not_found_help
+from hanzo_cli.command.install import _print_npm_not_found_help
 
 
 class TestPrintNpmNotFoundHelp:
@@ -16,7 +16,7 @@ class TestPrintNpmNotFoundHelp:
         """Fixture to capture rich console output"""
         output = StringIO()
         with patch(
-            "comfy_cli.command.install.rprint",
+            "hanzo_cli.command.install.rprint",
             side_effect=lambda *args: output.write(str(args[0]) + "\n" if args else "\n"),
         ):
             yield output

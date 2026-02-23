@@ -10,9 +10,9 @@ import typer
 import yaml
 from rich import print
 
-from comfy_cli import constants, logging, utils
-from comfy_cli.config_manager import ConfigManager
-from comfy_cli.utils import singleton
+from hanzo_cli import constants, logging, utils
+from hanzo_cli.config_manager import ConfigManager
+from hanzo_cli.utils import singleton
 
 
 @dataclass
@@ -191,11 +191,11 @@ class WorkspaceManager:
 
     def get_workspace_path(self) -> tuple[str, WorkspaceType]:
         """
-        Retrieves a workspace path based on user input and defaults. This function does not validate the existence of a validate ComfyUI workspace.
+        Retrieves a workspace path based on user input and defaults. This function does not validate the existence of a validate Hanzo Studio workspace.
         1. Specified Workspace (--workspace)
         2. Most Recent (if --recent is True)
         3. Current Directory (if --here is True)
-        4. Current Directory (if current dir is ComfyUI repo and --no-here is not True)
+        4. Current Directory (if current dir is Hanzo Studio repo and --no-here is not True)
         5. Default Workspace (if a default workspace has been set using `comfy set-default`)
         6. Most Recent Workspace (if --no-recent is not True)
         7. Fallback Default Workspace ('~/comfy' for linux or ~/Documents/comfy for windows/macos)
@@ -225,15 +225,15 @@ class WorkspaceManager:
                 return comfy_repo.working_dir, WorkspaceType.CURRENT_DIR
             else:
                 return (
-                    os.path.join(current_directory, "ComfyUI"),
+                    os.path.join(current_directory, "Hanzo Studio"),
                     WorkspaceType.CURRENT_DIR,
                 )
 
-        # Check the current directory for a ComfyUI
+        # Check the current directory for a Hanzo Studio
         if self.use_here is None:
             current_directory = os.getcwd()
             found_comfy_repo, comfy_repo = check_comfy_repo(os.path.join(current_directory))
-            # If it's in a sub dir of the ComfyUI repo, get the repo working dir
+            # If it's in a sub dir of the Hanzo Studio repo, get the repo working dir
             if found_comfy_repo:
                 return comfy_repo.working_dir, WorkspaceType.CURRENT_DIR
 
@@ -250,26 +250,26 @@ class WorkspaceManager:
                 return recent_workspace, WorkspaceType.RECENT
             else:
                 print(
-                    f"[bold red]warn: The recent workspace {recent_workspace} is not a valid ComfyUI path.[/bold red]"
+                    f"[bold red]warn: The recent workspace {recent_workspace} is not a valid Hanzo Studio path.[/bold red]"
                 )
 
-        # Check for comfy-cli default workspace
+        # Check for hanzo-cli default workspace
         default_workspace = utils.get_not_user_set_default_workspace()
         return default_workspace, WorkspaceType.DEFAULT
 
-    def get_comfyui_manager_path(self):
+    def get_hanzo_studio_manager_path(self):
         if self.workspace_path is None:
             return None
 
         # To check more robustly, verify up to the `.git` path.
-        return os.path.join(self.workspace_path, "custom_nodes", "ComfyUI-Manager")
+        return os.path.join(self.workspace_path, "custom_nodes", "Hanzo Manager")
 
-    def is_comfyui_manager_installed(self):
+    def is_hanzo_studio_manager_installed(self):
         if self.workspace_path is None:
             return False
 
         # To check more robustly, verify up to the `.git` path.
-        manager_git_path = os.path.join(self.workspace_path, "custom_nodes", "ComfyUI-Manager", ".git")
+        manager_git_path = os.path.join(self.workspace_path, "custom_nodes", "Hanzo Manager", ".git")
         return os.path.exists(manager_git_path)
 
     def scan_dir(self):

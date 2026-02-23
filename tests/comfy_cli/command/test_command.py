@@ -4,7 +4,7 @@ from unittest.mock import patch
 import pytest
 from typer.testing import CliRunner
 
-from comfy_cli.cmdline import app, g_exclusivity, g_gpu_exclusivity
+from hanzo_cli.cmdline import app, g_exclusivity, g_gpu_exclusivity
 
 
 @pytest.fixture(scope="function")
@@ -16,7 +16,7 @@ def runner():
 
 @pytest.fixture(scope="function")
 def mock_execute():
-    with patch("comfy_cli.command.install.execute") as mock:
+    with patch("hanzo_cli.command.install.execute") as mock:
         yield mock
 
 
@@ -26,7 +26,7 @@ def mock_prompt_select_enum():
         return choices[0]
 
     with patch(
-        "comfy_cli.ui.prompt_select_enum",
+        "hanzo_cli.ui.prompt_select_enum",
         new=mocked_prompt_select_enum,
     ) as mock:
         yield mock
@@ -34,7 +34,7 @@ def mock_prompt_select_enum():
 
 @pytest.fixture(autouse=True)
 def mock_tracking_consent():
-    with patch("comfy_cli.tracking.prompt_tracking_consent"):
+    with patch("hanzo_cli.tracking.prompt_tracking_consent"):
         yield
 
 
@@ -42,7 +42,7 @@ def mock_tracking_consent():
     "cmd",
     [
         ["--here", "install"],
-        ["--workspace", "./ComfyUI", "install"],
+        ["--workspace", "./Hanzo Studio", "install"],
     ],
 )
 def test_install_here(cmd, runner, mock_execute, mock_prompt_select_enum):
@@ -51,9 +51,9 @@ def test_install_here(cmd, runner, mock_execute, mock_prompt_select_enum):
 
     args, _ = mock_execute.call_args
     url, manager_url, comfy_path, *_ = args
-    assert url == "https://github.com/comfyanonymous/ComfyUI"
-    assert manager_url == "https://github.com/ltdrdata/ComfyUI-Manager"
-    assert comfy_path == os.path.join(os.getcwd(), "ComfyUI")
+    assert url == "https://github.com/hanzoai/studio"
+    assert manager_url == "https://github.com/ltdrdata/Hanzo Manager"
+    assert comfy_path == os.path.join(os.getcwd(), "Hanzo Studio")
 
 
 def test_version(runner):

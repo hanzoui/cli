@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - "comfy_cli/**"
-      - "!comfy_cli/test_**"
+      - "hanzo_cli/**"
+      - "!hanzo_cli/test_**"
       - "!.github/**"
       - "!tests/**"
       - "!.coveragerc"
@@ -15,8 +15,8 @@ on:
     branches:
       - main
     paths:
-      - "comfy_cli/**"
-      - "!comfy_cli/test_**"
+      - "hanzo_cli/**"
+      - "!hanzo_cli/test_**"
       - "!.github/**"
       - "!tests/**"
       - "!.coveragerc"

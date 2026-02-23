@@ -8,7 +8,7 @@ import httpx
 import requests
 from pathspec import PathSpec
 
-from comfy_cli import constants, ui
+from hanzo_cli import constants, ui
 
 
 class DownloadException(Exception):

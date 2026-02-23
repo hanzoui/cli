@@ -13,20 +13,20 @@ class PROC(str, Enum):
     ARM = "arm"
 
 
-COMFY_GITHUB_URL = "https://github.com/comfyanonymous/ComfyUI"
-COMFY_MANAGER_GITHUB_URL = "https://github.com/ltdrdata/ComfyUI-Manager"
+COMFY_GITHUB_URL = "https://github.com/hanzoai/studio"
+COMFY_MANAGER_GITHUB_URL = "https://github.com/ltdrdata/Hanzo Manager"
 
 DEFAULT_COMFY_MODEL_PATH = "models"
 DEFAULT_COMFY_WORKSPACE = {
-    OS.WINDOWS: os.path.join(os.path.expanduser("~"), "Documents", "comfy", "ComfyUI"),
-    OS.MACOS: os.path.join(os.path.expanduser("~"), "Documents", "comfy", "ComfyUI"),
-    OS.LINUX: os.path.join(os.path.expanduser("~"), "comfy", "ComfyUI"),
+    OS.WINDOWS: os.path.join(os.path.expanduser("~"), "Documents", "comfy", "Hanzo Studio"),
+    OS.MACOS: os.path.join(os.path.expanduser("~"), "Documents", "comfy", "Hanzo Studio"),
+    OS.LINUX: os.path.join(os.path.expanduser("~"), "comfy", "Hanzo Studio"),
 }
 
 DEFAULT_CONFIG = {
-    OS.WINDOWS: os.path.join(os.path.expanduser("~"), "AppData", "Local", "comfy-cli"),
-    OS.MACOS: os.path.join(os.path.expanduser("~"), "Library", "Application Support", "comfy-cli"),
-    OS.LINUX: os.path.join(os.path.expanduser("~"), ".config", "comfy-cli"),
+    OS.WINDOWS: os.path.join(os.path.expanduser("~"), "AppData", "Local", "hanzo-cli"),
+    OS.MACOS: os.path.join(os.path.expanduser("~"), "Library", "Application Support", "hanzo-cli"),
+    OS.LINUX: os.path.join(os.path.expanduser("~"), ".config", "hanzo-cli"),
 }
 
 CONTEXT_KEY_WORKSPACE = "workspace"
@@ -52,15 +52,15 @@ COMFY_LOCK_YAML_FILE = "comfy.lock.yaml"
 
 # TODO: figure out a better way to check if this is a comfy repo
 COMFY_ORIGIN_URL_CHOICES = {
-    "git@github.com:Comfy-Org/ComfyUI.git",
-    "git@github.com:comfyanonymous/ComfyUI.git",
+    "git@github.com:hanzoui/studio.git",
+    "git@github.com:hanzoai/studio.git",
     "git@github.com:drip-art/comfy.git",
-    "https://github.com/Comfy-Org/ComfyUI.git",
-    "https://github.com/comfyanonymous/ComfyUI.git",
-    "https://github.com/drip-art/ComfyUI.git",
-    "https://github.com/Comfy-Org/ComfyUI",
-    "https://github.com/comfyanonymous/ComfyUI",
-    "https://github.com/drip-art/ComfyUI",
+    "https://github.com/hanzoui/studio.git",
+    "https://github.com/hanzoai/studio.git",
+    "https://github.com/drip-art/Hanzo Studio.git",
+    "https://github.com/hanzoui/studio",
+    "https://github.com/hanzoai/studio",
+    "https://github.com/drip-art/Hanzo Studio",
 }
 
 
@@ -81,8 +81,8 @@ class GPU_OPTION(str, Enum):
     MAC_INTEL = "mac_intel"
 
 
-# Referencing supported pt extension from ComfyUI
-# https://github.com/comfyanonymous/ComfyUI/blob/a88b0ebc2d2f933c94e42aa689c42e836eedaf3c/folder_paths.py#L5
+# Referencing supported pt extension from Hanzo Studio
+# https://github.com/hanzoai/studio/blob/a88b0ebc2d2f933c94e42aa689c42e836eedaf3c/folder_paths.py#L5
 SUPPORTED_PT_EXTENSIONS = (".ckpt", ".pt", ".bin", ".pth", ".safetensors")
 
 NODE_ZIP_FILENAME = "node.zip"

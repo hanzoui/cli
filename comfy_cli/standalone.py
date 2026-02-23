@@ -4,10 +4,10 @@ from pathlib import Path
 
 import requests
 
-from comfy_cli.constants import DEFAULT_STANDALONE_PYTHON_DOWNLOAD_VERSION, OS, PROC
-from comfy_cli.typing import PathLike
-from comfy_cli.utils import create_tarball, download_url, extract_tarball, get_os, get_proc
-from comfy_cli.uv import DependencyCompiler
+from hanzo_cli.constants import DEFAULT_STANDALONE_PYTHON_DOWNLOAD_VERSION, OS, PROC
+from hanzo_cli.typing import PathLike
+from hanzo_cli.utils import create_tarball, download_url, extract_tarball, get_os, get_proc
+from hanzo_cli.uv import DependencyCompiler
 
 _here = Path(__file__).expanduser().resolve().parent
 
@@ -130,17 +130,17 @@ class StandalonePython:
     def uv_install(self, *args: str):
         self.run_module("uv", "pip", "install", *args)
 
-    def install_comfy_cli(self, dev: bool = False):
+    def install_hanzo_cli(self, dev: bool = False):
         if dev:
             self.uv_install(str(_here.parent))
         else:
-            self.uv_install("comfy_cli")
+            self.uv_install("hanzo_cli")
 
-    def run_comfy_cli(self, *args: str):
-        self.run_module("comfy_cli", *args)
+    def run_hanzo_cli(self, *args: str):
+        self.run_module("hanzo_cli", *args)
 
     def install_comfy(self, *args: str, gpu_arg: str = "--nvidia"):
-        self.run_comfy_cli("--here", "--skip-prompt", "install", "--fast-deps", gpu_arg, *args)
+        self.run_hanzo_cli("--here", "--skip-prompt", "install", "--fast-deps", gpu_arg, *args)
 
     def dehydrate_comfy_deps(
         self,

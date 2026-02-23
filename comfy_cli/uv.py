@@ -6,9 +6,9 @@ from pathlib import Path
 from textwrap import dedent
 from typing import Any, cast
 
-from comfy_cli import ui
-from comfy_cli.constants import GPU_OPTION
-from comfy_cli.typing import PathLike
+from hanzo_cli import ui
+from hanzo_cli.constants import GPU_OPTION
+from hanzo_cli.typing import PathLike
 
 
 def _run(cmd: list[str], cwd: PathLike, check: bool = True) -> subprocess.CompletedProcess[Any]:

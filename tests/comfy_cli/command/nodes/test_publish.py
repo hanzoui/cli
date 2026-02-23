@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, patch
 
 from typer.testing import CliRunner
 
-from comfy_cli.command.custom_nodes.command import app
+from hanzo_cli.command.custom_nodes.command import app
 
 runner = CliRunner()
 
@@ -56,11 +56,11 @@ def test_publish_continues_on_no_security_violations():
 
     with (
         patch("subprocess.run", return_value=mock_result),
-        patch("comfy_cli.command.custom_nodes.command.extract_node_configuration") as mock_extract,
+        patch("hanzo_cli.command.custom_nodes.command.extract_node_configuration") as mock_extract,
         patch("typer.prompt") as mock_prompt,
-        patch("comfy_cli.command.custom_nodes.command.registry_api.publish_node_version") as mock_publish,
-        patch("comfy_cli.command.custom_nodes.command.zip_files") as mock_zip,
-        patch("comfy_cli.command.custom_nodes.command.upload_file_to_signed_url") as mock_upload,
+        patch("hanzo_cli.command.custom_nodes.command.registry_api.publish_node_version") as mock_publish,
+        patch("hanzo_cli.command.custom_nodes.command.zip_files") as mock_zip,
+        patch("hanzo_cli.command.custom_nodes.command.upload_file_to_signed_url") as mock_upload,
     ):
         # Setup the mocks
         mock_extract.return_value = create_mock_config()
@@ -94,10 +94,10 @@ def test_publish_with_token_option():
 
     with (
         patch("subprocess.run", return_value=mock_result),
-        patch("comfy_cli.command.custom_nodes.command.extract_node_configuration") as mock_extract,
-        patch("comfy_cli.command.custom_nodes.command.registry_api.publish_node_version") as mock_publish,
-        patch("comfy_cli.command.custom_nodes.command.zip_files") as mock_zip,
-        patch("comfy_cli.command.custom_nodes.command.upload_file_to_signed_url") as mock_upload,
+        patch("hanzo_cli.command.custom_nodes.command.extract_node_configuration") as mock_extract,
+        patch("hanzo_cli.command.custom_nodes.command.registry_api.publish_node_version") as mock_publish,
+        patch("hanzo_cli.command.custom_nodes.command.zip_files") as mock_zip,
+        patch("hanzo_cli.command.custom_nodes.command.upload_file_to_signed_url") as mock_upload,
     ):
         # Setup the mocks
         mock_extract.return_value = create_mock_config()
@@ -122,11 +122,11 @@ def test_publish_exits_on_upload_failure():
 
     with (
         patch("subprocess.run", return_value=mock_result),
-        patch("comfy_cli.command.custom_nodes.command.extract_node_configuration") as mock_extract,
+        patch("hanzo_cli.command.custom_nodes.command.extract_node_configuration") as mock_extract,
         patch("typer.prompt", return_value="test-token"),
-        patch("comfy_cli.command.custom_nodes.command.registry_api.publish_node_version") as mock_publish,
-        patch("comfy_cli.command.custom_nodes.command.zip_files") as mock_zip,
-        patch("comfy_cli.command.custom_nodes.command.upload_file_to_signed_url") as mock_upload,
+        patch("hanzo_cli.command.custom_nodes.command.registry_api.publish_node_version") as mock_publish,
+        patch("hanzo_cli.command.custom_nodes.command.zip_files") as mock_zip,
+        patch("hanzo_cli.command.custom_nodes.command.upload_file_to_signed_url") as mock_upload,
     ):
         # Setup the mocks
         mock_extract.return_value = create_mock_config()
@@ -153,10 +153,10 @@ def test_publish_with_includes_parameter():
 
     with (
         patch("subprocess.run", return_value=mock_result),
-        patch("comfy_cli.command.custom_nodes.command.extract_node_configuration") as mock_extract,
-        patch("comfy_cli.command.custom_nodes.command.registry_api.publish_node_version") as mock_publish,
-        patch("comfy_cli.command.custom_nodes.command.zip_files") as mock_zip,
-        patch("comfy_cli.command.custom_nodes.command.upload_file_to_signed_url") as mock_upload,
+        patch("hanzo_cli.command.custom_nodes.command.extract_node_configuration") as mock_extract,
+        patch("hanzo_cli.command.custom_nodes.command.registry_api.publish_node_version") as mock_publish,
+        patch("hanzo_cli.command.custom_nodes.command.zip_files") as mock_zip,
+        patch("hanzo_cli.command.custom_nodes.command.upload_file_to_signed_url") as mock_upload,
     ):
         includes = ["/js", "/dist"]
 

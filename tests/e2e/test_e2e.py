@@ -60,25 +60,25 @@ def workspace():
 
 
 @pytest.fixture()
-def comfy_cli(workspace):
+def hanzo_cli(workspace):
     exec("comfy --skip-prompt --no-enable-telemetry env")
     return f"comfy --workspace {workspace}"
 
 
 @e2e_test
-def test_model(comfy_cli):
+def test_model(hanzo_cli):
     url = "https://huggingface.co/guoyww/animatediff/resolve/cd71ae134a27ec6008b968d6419952b0c0494cf2/mm_sd_v14.ckpt?download=true"
     path = os.path.join("models", "animatediff_models")
     proc = exec(
         f"""
-            {comfy_cli} model download --url {url} --relative-path {path} --filename animatediff_models
+            {hanzo_cli} model download --url {url} --relative-path {path} --filename animatediff_models
         """
     )
     assert 0 == proc.returncode
 
     proc = exec(
         f"""
-            {comfy_cli} model list --relative-path {path}
+            {hanzo_cli} model list --relative-path {path}
         """
     )
     assert 0 == proc.returncode
@@ -86,32 +86,32 @@ def test_model(comfy_cli):
 
     proc = exec(
         f"""
-            {comfy_cli} model remove --relative-path {path} --model-names animatediff_models --confirm
+            {hanzo_cli} model remove --relative-path {path} --model-names animatediff_models --confirm
         """
     )
     assert 0 == proc.returncode
 
 
 @e2e_test
-def test_node(comfy_cli, workspace):
-    node = "comfyui-animatediff-evolved"
+def test_node(hanzo_cli, workspace):
+    node = "hanzo-studio-animatediff-evolved"
     proc = exec(
         f"""
-            {comfy_cli} node install {node}
+            {hanzo_cli} node install {node}
         """
     )
     assert 0 == proc.returncode
 
     proc = exec(
         f"""
-            {comfy_cli} node reinstall {node}
+            {hanzo_cli} node reinstall {node}
         """
     )
     assert 0 == proc.returncode
 
     proc = exec(
         f"""
-            {comfy_cli} node show all
+            {hanzo_cli} node show all
         """
     )
     assert 0 == proc.returncode
@@ -119,21 +119,21 @@ def test_node(comfy_cli, workspace):
 
     proc = exec(
         f"""
-            {comfy_cli} node update {node}
+            {hanzo_cli} node update {node}
         """
     )
     assert 0 == proc.returncode
 
     proc = exec(
         f"""
-            {comfy_cli} node disable {node}
+            {hanzo_cli} node disable {node}
         """
     )
     assert 0 == proc.returncode
 
     proc = exec(
         f"""
-            {comfy_cli} node enable {node}
+            {hanzo_cli} node enable {node}
         """
     )
     assert 0 == proc.returncode
@@ -143,7 +143,7 @@ def test_node(comfy_cli, workspace):
     proc = exec(
         f"""
             sed 's/PublisherId = ".*"/PublisherId = "{pubID}"/g' pyproject.toml
-            {comfy_cli} node publish --token {pubToken}
+            {hanzo_cli} node publish --token {pubToken}
         """,
         env={"ENVIRONMENT": "stage"},
         cwd=os.path.join(workspace, "custom_nodes", node),
@@ -151,13 +151,13 @@ def test_node(comfy_cli, workspace):
 
 
 @e2e_test
-def test_run(comfy_cli):
-    url = "https://huggingface.co/Comfy-Org/stable-diffusion-v1-5-archive/resolve/main/v1-5-pruned-emaonly-fp16.safetensors?download=true"
+def test_run(hanzo_cli):
+    url = "https://huggingface.co/hanzoui/stable-diffusion-v1-5-archive/resolve/main/v1-5-pruned-emaonly-fp16.safetensors?download=true"
     path = os.path.join("models", "checkpoints")
     name = "v1-5-pruned-emaonly.safetensors"
     proc = exec(
         f"""
-            {comfy_cli} model download --url {url} --relative-path {path} --filename {name}
+            {hanzo_cli} model download --url {url} --relative-path {path} --filename {name}
         """
     )
     assert 0 == proc.returncode
@@ -165,7 +165,7 @@ def test_run(comfy_cli):
     workflow = os.path.join(os.path.dirname(os.path.realpath(__file__)), "workflow.json")
     proc = exec(
         f"""
-        {comfy_cli} run --workflow {workflow} --wait --timeout 180
+        {hanzo_cli} run --workflow {workflow} --wait --timeout 180
         """
     )
     assert 0 == proc.returncode

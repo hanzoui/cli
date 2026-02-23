@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from typer.testing import CliRunner
 
-from comfy_cli.command.custom_nodes.command import app
+from hanzo_cli.command.custom_nodes.command import app
 
 runner = CliRunner()
 
@@ -34,12 +34,12 @@ def test_install_fast_deps_and_no_deps_mutually_exclusive():
 
 def test_install_no_deps_alone_works():
     """Test that --no-deps can be used by itself."""
-    with patch("comfy_cli.command.custom_nodes.command.execute_cm_cli") as mock_execute:
+    with patch("hanzo_cli.command.custom_nodes.command.execute_cm_cli") as mock_execute:
         result = runner.invoke(app, ["install", "test-node", "--no-deps"])
 
         # Should not exit with error due to mutual exclusivity
         if result.exit_code != 0:
-            # Only acceptable if it fails due to missing ComfyUI setup, not mutual exclusivity
+            # Only acceptable if it fails due to missing Hanzo Studio setup, not mutual exclusivity
             assert "Cannot use --fast-deps and --no-deps together" not in result.stdout
 
         # Verify execute_cm_cli was called with no_deps=True
@@ -51,12 +51,12 @@ def test_install_no_deps_alone_works():
 
 def test_install_fast_deps_alone_works():
     """Test that --fast-deps can be used by itself."""
-    with patch("comfy_cli.command.custom_nodes.command.execute_cm_cli") as mock_execute:
+    with patch("hanzo_cli.command.custom_nodes.command.execute_cm_cli") as mock_execute:
         result = runner.invoke(app, ["install", "test-node", "--fast-deps"])
 
         # Should not exit with error due to mutual exclusivity
         if result.exit_code != 0:
-            # Only acceptable if it fails due to missing ComfyUI setup, not mutual exclusivity
+            # Only acceptable if it fails due to missing Hanzo Studio setup, not mutual exclusivity
             assert "Cannot use --fast-deps and --no-deps together" not in result.stdout
 
         # Verify execute_cm_cli was called with fast_deps=True
@@ -68,12 +68,12 @@ def test_install_fast_deps_alone_works():
 
 def test_install_neither_deps_option():
     """Test that install works without any deps options."""
-    with patch("comfy_cli.command.custom_nodes.command.execute_cm_cli") as mock_execute:
+    with patch("hanzo_cli.command.custom_nodes.command.execute_cm_cli") as mock_execute:
         result = runner.invoke(app, ["install", "test-node"])
 
         # Should not exit with error due to mutual exclusivity
         if result.exit_code != 0:
-            # Only acceptable if it fails due to missing ComfyUI setup, not mutual exclusivity
+            # Only acceptable if it fails due to missing Hanzo Studio setup, not mutual exclusivity
             assert "Cannot use --fast-deps and --no-deps together" not in result.stdout
 
         # Verify execute_cm_cli was called with both flags False
@@ -86,13 +86,13 @@ def test_install_neither_deps_option():
 def test_multiple_commands_work_independently():
     """Test that multiple commands work independently without state interference."""
     # First command with --no-deps should work
-    with patch("comfy_cli.command.custom_nodes.command.execute_cm_cli"):
+    with patch("hanzo_cli.command.custom_nodes.command.execute_cm_cli"):
         result1 = runner.invoke(app, ["install", "test-node", "--no-deps"])
         if result1.exit_code != 0:
             assert "Cannot use --fast-deps and --no-deps together" not in result1.stdout
 
     # Second command with --fast-deps should also work
-    with patch("comfy_cli.command.custom_nodes.command.execute_cm_cli"):
+    with patch("hanzo_cli.command.custom_nodes.command.execute_cm_cli"):
         result2 = runner.invoke(app, ["install", "test-node2", "--fast-deps"])
         if result2.exit_code != 0:
             assert "Cannot use --fast-deps and --no-deps together" not in result2.stdout
@@ -103,8 +103,8 @@ def test_install_exit_on_fail_reraises_and_propagates_code():
     When --exit-on-fail is used and the underlying cm-cli install fails,
     the CalledProcessError is re-raised and the Typer command exits with the same code.
     """
-    with patch("comfy_cli.command.custom_nodes.command.execute_cm_cli") as mock_execute:
-        # Simulate ComfyUI-Manager's cm-cli failing with a nonzero return code
+    with patch("hanzo_cli.command.custom_nodes.command.execute_cm_cli") as mock_execute:
+        # Simulate Hanzo Manager's cm-cli failing with a nonzero return code
         mock_execute.side_effect = subprocess.CalledProcessError(7, "cm-cli")
 
         result = runner.invoke(app, ["install", "bad-node", "--exit-on-fail"])

@@ -13,8 +13,8 @@ from rich import print as pprint
 from rich.progress import BarColumn, Column, Progress, Table, TimeElapsedColumn
 from websocket import WebSocket
 
-from comfy_cli.env_checker import check_comfy_server_running
-from comfy_cli.workspace_manager import WorkspaceManager
+from hanzo_cli.env_checker import check_comfy_server_running
+from hanzo_cli.workspace_manager import WorkspaceManager
 
 workspace_manager = WorkspaceManager()
 
@@ -51,7 +51,7 @@ def execute(workflow: str, host, port, wait=True, verbose=False, local_paths=Fal
         raise typer.Exit(code=1)
 
     if not check_comfy_server_running(port, host):
-        pprint(f"[bold red]ComfyUI not running on specified address ({host}:{port})[/bold red]")
+        pprint(f"[bold red]Hanzo Studio not running on specified address ({host}:{port})[/bold red]")
         raise typer.Exit(code=1)
 
     progress = None

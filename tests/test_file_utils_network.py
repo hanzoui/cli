@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 import pytest
 import requests
 
-from comfy_cli.file_utils import (
+from hanzo_cli.file_utils import (
     DownloadException,
     check_unauthorized,
     download_file,

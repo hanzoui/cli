@@ -9,20 +9,20 @@ import typer
 from rich import print as rprint
 from rich.console import Console
 
-from comfy_cli import constants, env_checker, logging, tracking, ui, utils
-from comfy_cli.command import custom_nodes, pr_command
-from comfy_cli.command import install as install_inner
-from comfy_cli.command import run as run_inner
-from comfy_cli.command.install import validate_version
-from comfy_cli.command.launch import launch as launch_command
-from comfy_cli.command.models import models as models_command
-from comfy_cli.config_manager import ConfigManager
-from comfy_cli.constants import GPU_OPTION, CUDAVersion
-from comfy_cli.env_checker import EnvChecker
-from comfy_cli.standalone import StandalonePython
-from comfy_cli.update import check_for_updates
-from comfy_cli.uv import DependencyCompiler
-from comfy_cli.workspace_manager import WorkspaceManager, check_comfy_repo
+from hanzo_cli import constants, env_checker, logging, tracking, ui, utils
+from hanzo_cli.command import custom_nodes, pr_command
+from hanzo_cli.command import install as install_inner
+from hanzo_cli.command import run as run_inner
+from hanzo_cli.command.install import validate_version
+from hanzo_cli.command.launch import launch as launch_command
+from hanzo_cli.command.models import models as models_command
+from hanzo_cli.config_manager import ConfigManager
+from hanzo_cli.constants import GPU_OPTION, CUDAVersion
+from hanzo_cli.env_checker import EnvChecker
+from hanzo_cli.standalone import StandalonePython
+from hanzo_cli.update import check_for_updates
+from hanzo_cli.uv import DependencyCompiler
+from hanzo_cli.workspace_manager import WorkspaceManager, check_comfy_repo
 
 logging.setup_logging()
 app = typer.Typer()
@@ -68,7 +68,7 @@ def entry(
         str | None,
         typer.Option(
             show_default=False,
-            help="Path to ComfyUI workspace",
+            help="Path to Hanzo Studio workspace",
             callback=g_exclusivity.validate,
         ),
     ] = None,
@@ -119,7 +119,7 @@ def entry(
     tracking.prompt_tracking_consent(skip_prompt, default_value=enable_telemetry)
 
     if ctx.invoked_subcommand is None:
-        rprint("[bold yellow]Welcome to Comfy CLI![/bold yellow]: https://github.com/Comfy-Org/comfy-cli")
+        rprint("[bold yellow]Welcome to Comfy CLI![/bold yellow]: https://github.com/hanzoui/cli")
         rprint(ctx.get_help())
         ctx.exit()
 
@@ -141,21 +141,21 @@ def validate_commit_and_version(commit: str | None, ctx: typer.Context) -> str |
     return commit
 
 
-@app.command(help="Download and install ComfyUI and ComfyUI-Manager")
+@app.command(help="Download and install Hanzo Studio and Hanzo Manager")
 @tracking.track_command()
 def install(
     url: Annotated[
         str,
         typer.Option(
             show_default=False,
-            help="url or local path pointing to the ComfyUI core git repo to be installed. A specific branch can optionally be specified using a setuptools-like syntax, eg https://foo.git@bar",
+            help="url or local path pointing to the Hanzo Studio core git repo to be installed. A specific branch can optionally be specified using a setuptools-like syntax, eg https://foo.git@bar",
         ),
     ] = constants.COMFY_GITHUB_URL,
     version: Annotated[
         str,
         typer.Option(
             show_default=False,
-            help="Specify version of ComfyUI to install. Default is nightl, which is the latest commit on master branch. Other options include: latest, which is the latest stable release. Or a specific version number, eg. 0.2.0",
+            help="Specify version of Hanzo Studio to install. Default is nightl, which is the latest commit on master branch. Other options include: latest, which is the latest stable release. Or a specific version number, eg. 0.2.0",
             callback=validate_version,
         ),
     ] = "nightly",
@@ -163,14 +163,14 @@ def install(
         str,
         typer.Option(
             show_default=False,
-            help="url or local path pointing to the ComfyUI-Manager git repo to be installed. A specific branch can optionally be specified using a setuptools-like syntax, eg https://foo.git@bar",
+            help="url or local path pointing to the Hanzo Manager git repo to be installed. A specific branch can optionally be specified using a setuptools-like syntax, eg https://foo.git@bar",
         ),
     ] = constants.COMFY_MANAGER_GITHUB_URL,
     restore: Annotated[
         bool,
         typer.Option(
             show_default=False,
-            help="Restore dependencies for installed ComfyUI if not installed",
+            help="Restore dependencies for installed Hanzo Studio if not installed",
         ),
     ] = False,
     skip_manager: Annotated[
@@ -227,7 +227,7 @@ def install(
         ),
     ] = None,
     commit: Annotated[
-        str | None, typer.Option(help="Specify commit hash for ComfyUI", callback=validate_commit_and_version)
+        str | None, typer.Option(help="Specify commit hash for Hanzo Studio", callback=validate_commit_and_version)
     ] = None,
     fast_deps: Annotated[
         bool,
@@ -239,7 +239,7 @@ def install(
     ] = False,
     manager_commit: Annotated[
         str | None,
-        typer.Option(help="Specify commit hash for ComfyUI-Manager"),
+        typer.Option(help="Specify commit hash for Hanzo Manager"),
     ] = None,
     pr: Annotated[
         str | None,
@@ -256,7 +256,7 @@ def install(
 
     is_comfy_installed_at_path, repo_dir = check_comfy_repo(comfy_path)
     if is_comfy_installed_at_path and not restore:
-        rprint(f"[bold red]ComfyUI is already installed at the specified path:[/bold red] {comfy_path}\n")
+        rprint(f"[bold red]Hanzo Studio is already installed at the specified path:[/bold red] {comfy_path}\n")
         rprint(
             "[bold yellow]If you want to restore dependencies, add the '--restore' option.[/bold yellow]",
         )
@@ -266,7 +266,7 @@ def install(
         comfy_path = str(repo_dir.working_dir)
 
     if checker.python_version.major < 3 or checker.python_version.minor < 9:
-        rprint("[bold red]Python version 3.9 or higher is required to run ComfyUI.[/bold red]")
+        rprint("[bold red]Python version 3.9 or higher is required to run Hanzo Studio.[/bold red]")
         rprint(f"You are currently using Python version {env_checker.format_python_version(checker.python_version)}.")
     platform = utils.get_os()
     if cpu:
@@ -287,7 +287,7 @@ def install(
             fast_deps=fast_deps,
             manager_commit=manager_commit,
         )
-        rprint(f"ComfyUI is installed at: {comfy_path}")
+        rprint(f"Hanzo Studio is installed at: {comfy_path}")
         return None
 
     if nvidia and platform == constants.OS.MACOS:
@@ -347,10 +347,10 @@ def install(
         pr=pr,
     )
 
-    rprint(f"ComfyUI is installed at: {comfy_path}")
+    rprint(f"Hanzo Studio is installed at: {comfy_path}")
 
 
-@app.command(help="Update ComfyUI Environment [all|comfy]")
+@app.command(help="Update Hanzo Studio Environment [all|comfy]")
 @tracking.track_command()
 def update(
     target: str = typer.Argument(
@@ -371,9 +371,9 @@ def update(
     if "all" == target:
         custom_nodes.command.execute_cm_cli(["update", "all"])
     else:
-        rprint(f"Updating ComfyUI in {comfy_path}...")
+        rprint(f"Updating Hanzo Studio in {comfy_path}...")
         if comfy_path is None:
-            rprint("ComfyUI path is not found.")
+            rprint("Hanzo Studio path is not found.")
             raise typer.Exit(code=1)
         os.chdir(comfy_path)
         subprocess.run(["git", "pull"], check=True)
@@ -385,7 +385,7 @@ def update(
     custom_nodes.command.update_node_id_cache()
 
 
-@app.command(help="Run API workflow file using the ComfyUI launched by `comfy launch --background`")
+@app.command(help="Run API workflow file using the Hanzo Studio launched by `comfy launch --background`")
 @tracking.track_command()
 def run(
     workflow: Annotated[str, typer.Option(help="Path to the workflow API json file.")],
@@ -399,11 +399,11 @@ def run(
     ] = False,
     host: Annotated[
         str | None,
-        typer.Option(help="The IP/hostname where the ComfyUI instance is running, e.g. 127.0.0.1 or localhost."),
+        typer.Option(help="The IP/hostname where the Hanzo Studio instance is running, e.g. 127.0.0.1 or localhost."),
     ] = None,
     port: Annotated[
         int | None,
-        typer.Option(help="The port where the ComfyUI instance is running, e.g. 8188."),
+        typer.Option(help="The port where the Hanzo Studio instance is running, e.g. 8188."),
     ] = None,
     timeout: Annotated[
         int | None,
@@ -438,36 +438,36 @@ def run(
 
 def validate_comfyui(_env_checker):
     if _env_checker.comfy_repo is None:
-        rprint("[bold red]If ComfyUI is not installed, this feature cannot be used.[/bold red]")
+        rprint("[bold red]If Hanzo Studio is not installed, this feature cannot be used.[/bold red]")
         raise typer.Exit(code=1)
 
 
-@app.command(help="Stop background ComfyUI")
+@app.command(help="Stop background Hanzo Studio")
 @tracking.track_command()
 def stop():
     if constants.CONFIG_KEY_BACKGROUND not in ConfigManager().config["DEFAULT"]:
-        rprint("[bold red]No ComfyUI is running in the background.[/bold red]\n")
+        rprint("[bold red]No Hanzo Studio is running in the background.[/bold red]\n")
         raise typer.Exit(code=1)
 
     bg_info = ConfigManager().background
     if not bg_info:
-        rprint("[bold red]No ComfyUI is running in the background.[/bold red]\n")
+        rprint("[bold red]No Hanzo Studio is running in the background.[/bold red]\n")
         raise typer.Exit(code=1)
     is_killed = utils.kill_all(bg_info[2])
 
     if not is_killed:
-        rprint("[bold red]Failed to stop ComfyUI in the background.[/bold red]\n")
+        rprint("[bold red]Failed to stop Hanzo Studio in the background.[/bold red]\n")
     else:
-        rprint(f"[bold yellow]Background ComfyUI is stopped.[/bold yellow] ({bg_info[0]}:{bg_info[1]})")
+        rprint(f"[bold yellow]Background Hanzo Studio is stopped.[/bold yellow] ({bg_info[0]}:{bg_info[1]})")
 
     ConfigManager().remove_background()
 
 
-@app.command(help="Launch ComfyUI: ?[--background] ?[-- <extra args ...>]")
+@app.command(help="Launch Hanzo Studio: ?[--background] ?[-- <extra args ...>]")
 @tracking.track_command()
 def launch(
     extra: list[str] = typer.Argument(None),
-    background: Annotated[bool, typer.Option(help="Launch ComfyUI in background")] = False,
+    background: Annotated[bool, typer.Option(help="Launch Hanzo Studio in background")] = False,
     frontend_pr: Annotated[
         str | None,
         typer.Option(
@@ -480,7 +480,7 @@ def launch(
     launch_command(background, extra, frontend_pr)
 
 
-@app.command("set-default", help="Set default ComfyUI path")
+@app.command("set-default", help="Set default Hanzo Studio path")
 @tracking.track_command()
 def set_default(
     workspace_path: str,
@@ -498,29 +498,29 @@ def set_default(
     is_comfy_repo, comfy_repo = check_comfy_repo(comfy_path)
     if not is_comfy_repo:
         rprint(
-            f"\nSpecified path is not a ComfyUI path: {comfy_path}.\n",
+            f"\nSpecified path is not a Hanzo Studio path: {comfy_path}.\n",
             file=sys.stderr,
         )
         raise typer.Exit(code=1)
 
     comfy_path = comfy_repo.working_dir
 
-    rprint(f"Specified path is set as default ComfyUI path: {comfy_path} ")
+    rprint(f"Specified path is set as default Hanzo Studio path: {comfy_path} ")
     workspace_manager.set_default_workspace(comfy_path)
     workspace_manager.set_default_launch_extras(launch_extras)
 
 
-@app.command(help="Show which ComfyUI is selected.")
+@app.command(help="Show which Hanzo Studio is selected.")
 @tracking.track_command()
 def which():
     comfy_path = workspace_manager.workspace_path
     if comfy_path is None:
         rprint(
-            "ComfyUI not found, please run 'comfy install', run 'comfy' in a ComfyUI directory, or specify the workspace path with '--workspace'."
+            "Hanzo Studio not found, please run 'comfy install', run 'comfy' in a Hanzo Studio directory, or specify the workspace path with '--workspace'."
         )
         raise typer.Exit(code=1)
 
-    rprint(f"Target ComfyUI path: {comfy_path}")
+    rprint(f"Target Hanzo Studio path: {comfy_path}")
 
 
 @app.command(help="Print out current environment variables.")
@@ -573,7 +573,7 @@ def feedback():
     # Additional Feature-Specific Feedback
     if questionary.confirm("Do you want to provide additional feature-specific feedback on our GitHub page?").ask():
         tracking.track_event("feedback_additional")
-        webbrowser.open("https://github.com/Comfy-Org/comfy-cli/issues/new/choose")
+        webbrowser.open("https://github.com/hanzoui/cli/issues/new/choose")
 
     rprint("Thank you for your feedback!")
 
@@ -598,9 +598,9 @@ def standalone(
         str,
         typer.Option(
             show_default=False,
-            help="setuptools-style requirement specificer pointing to an instance of comfy-cli",
+            help="setuptools-style requirement specificer pointing to an instance of hanzo-cli",
         ),
-    ] = "comfy-cli",
+    ] = "hanzo-cli",
     pack_wheels: Annotated[
         bool,
         typer.Option(
@@ -646,7 +646,7 @@ def standalone(
 
 app.add_typer(models_command.app, name="model", help="Manage models.")
 app.add_typer(custom_nodes.app, name="node", help="Manage custom nodes.")
-app.add_typer(custom_nodes.manager_app, name="manager", help="Manage ComfyUI-Manager.")
+app.add_typer(custom_nodes.manager_app, name="manager", help="Manage Hanzo Manager.")
 
 app.add_typer(pr_command.app, name="pr-cache", help="Manage PR cache.")
 
