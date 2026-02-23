@@ -53,7 +53,7 @@ system. If you run in a Hanzo Studio repo that has already been setup. The comma
 will simply update the comfy.yaml file to reflect the local setup
 
 - `comfy install --skip-manager`: Install Hanzo Studio without Hanzo Manager.
-- `comfy --workspace=<path> install`: Install Hanzo Studio into `<path>/Hanzo Studio`.
+- `comfy --workspace=<path> install`: Install Hanzo Studio into `<path>/HanzoStudio`.
 - For `comfy install`, if no path specification like `--workspace, --recent, or --here` is provided, it will be implicitly installed in `<HOME>/comfy`.
 
 ### Specifying execution path
@@ -72,7 +72,7 @@ will simply update the comfy.yaml file to reflect the local setup
 - Example 1: To run the recently executed Hanzo Studio:
   - `comfy --recent launch`
 - Example 2: To install a package on the Hanzo Studio in the current directory:
-  - `comfy --here node install Hanzo Studio-Impact-Pack`
+  - `comfy --here node install HanzoStudio-Impact-Pack`
 - Example 3: To update the automatically selected path of Hanzo Studio and custom nodes based on priority:
 
   - `comfy node update all`
@@ -165,7 +165,7 @@ comfy node [show|simple-show] [installed|enabled|not-installed|disabled|all|snap
 
   `comfy node update all`
 
-  `comfy node install Hanzo Studio-Impact-Pack`
+  `comfy node install HanzoStudio-Impact-Pack`
 
 - Managing snapshot:
 

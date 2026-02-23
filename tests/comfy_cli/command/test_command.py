@@ -42,7 +42,7 @@ def mock_tracking_consent():
     "cmd",
     [
         ["--here", "install"],
-        ["--workspace", "./Hanzo Studio", "install"],
+        ["--workspace", "./HanzoStudio", "install"],
     ],
 )
 def test_install_here(cmd, runner, mock_execute, mock_prompt_select_enum):

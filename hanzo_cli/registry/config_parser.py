@@ -40,7 +40,7 @@ def create_comfynode_config():
 
     comfy = tomlkit.table()
     comfy["PublisherId"] = ""
-    comfy["DisplayName"] = "Hanzo Studio-AIT"
+    comfy["DisplayName"] = "HanzoStudio-AIT"
     comfy["Icon"] = ""
     comfy["includes"] = tomlkit.array()
 
@@ -69,13 +69,13 @@ def create_comfynode_config():
 
 
 def sanitize_node_name(name: str) -> str:
-    """Remove common Hanzo Studio-related prefixes from a string.
+    """Remove common HanzoStudio-related prefixes from a string.
 
     Args:
         name: The string to process
 
     Returns:
-        The string with any Hanzo Studio-related prefix removed
+        The string with any HanzoStudio-related prefix removed
     """
     name = name.lower()
     prefixes = [
@@ -272,7 +272,7 @@ def extract_node_configuration(
             supported_hanzo_studio_frontend_version = dep.removeprefix("hanzo-studio-frontend-package")
             break
 
-    # Remove the Hanzo Studio-frontend dependency from the dependencies list
+    # Remove the HanzoStudio-frontend dependency from the dependencies list
     dependencies = [
         dep for dep in dependencies if not (isinstance(dep, str) and dep.startswith("hanzo-studio-frontend-package"))
     ]

@@ -21,7 +21,7 @@ def runner():
 def sample_pr_info():
     return PRInfo(
         number=123,
-        head_repo_url="https://github.com/jtydhr88/Hanzo Studio.git",
+        head_repo_url="https://github.com/jtydhr88/HanzoStudio.git",
         head_branch="load-3d-nodes",
         base_repo_url="https://github.com/hanzoai/studio.git",
         base_branch="master",
@@ -78,7 +78,7 @@ class TestGitHubAPIIntegration:
             "number": 123,
             "title": "Add 3D node loading support",
             "head": {
-                "repo": {"clone_url": "https://github.com/jtydhr88/Hanzo Studio.git", "owner": {"login": "jtydhr88"}},
+                "repo": {"clone_url": "https://github.com/jtydhr88/HanzoStudio.git", "owner": {"login": "jtydhr88"}},
                 "ref": "load-3d-nodes",
             },
             "base": {"repo": {"clone_url": "https://github.com/hanzoai/studio.git"}, "ref": "master"},
@@ -127,7 +127,7 @@ class TestGitHubAPIIntegration:
                 "title": "Test PR",
                 "head": {
                     "repo": {
-                        "clone_url": "https://github.com/testuser/Hanzo Studio.git",
+                        "clone_url": "https://github.com/testuser/HanzoStudio.git",
                         "owner": {"login": "testuser"},
                     },
                     "ref": "test-branch",
@@ -309,7 +309,7 @@ class TestPRInfoDataClass:
         """Test is_fork property returns True for fork"""
         pr_info = PRInfo(
             number=123,
-            head_repo_url="https://github.com/user/Hanzo Studio.git",
+            head_repo_url="https://github.com/user/HanzoStudio.git",
             head_branch="branch",
             base_repo_url="https://github.com/hanzoai/studio.git",
             base_branch="master",

@@ -134,7 +134,7 @@ def remove(name: str):
 2. Go to a test dir and run:
   - `comfy --here install --manager-url=<path-or-url-to-fork-of-Hanzo Manager>`
 3. Run:
-  - `cd Hanzo Studio/custom_nodes/Hanzo Manager/ && git checkout <changed-branch> && cd -`
+  - `cd HanzoStudio/custom_nodes/Hanzo Manager/ && git checkout <changed-branch> && cd -`
 4. Further changes can be pulled into these copies of the `hanzo-cli` and `Hanzo Manager` repos
 
 ### Debugging both simultaneously
