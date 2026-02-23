@@ -57,10 +57,10 @@ COMFY_ORIGIN_URL_CHOICES = {
     "git@github.com:drip-art/comfy.git",
     "https://github.com/hanzoui/studio.git",
     "https://github.com/hanzoai/studio.git",
-    "https://github.com/drip-art/Hanzo Studio.git",
+    "https://github.com/drip-art/HanzoStudio.git",
     "https://github.com/hanzoui/studio",
     "https://github.com/hanzoai/studio",
-    "https://github.com/drip-art/Hanzo Studio",
+    "https://github.com/drip-art/HanzoStudio",
 }
 
 

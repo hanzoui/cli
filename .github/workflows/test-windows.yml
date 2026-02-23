@@ -32,5 +32,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
           pip install -e .
-          comfy --skip-prompt --workspace ./Hanzo Studio install --fast-deps --nvidia --cuda-version 12.6 --skip-manager
+          comfy --skip-prompt --workspace ./HanzoStudio install --fast-deps --nvidia --cuda-version 12.6 --skip-manager
           comfy --here launch -- --cpu --quick-test-for-ci
