@@ -907,11 +907,11 @@ def parse_frontend_pr_reference(pr_ref: str) -> tuple[str, str, int | None]:
 
     elif pr_ref.startswith("#"):
         pr_number = int(pr_ref[1:])
-        return "hanzoui", "Hanzo Studio_frontend", pr_number
+        return "hanzoui", "HanzoStudio_frontend", pr_number
 
     elif ":" in pr_ref:
         username, branch = pr_ref.split(":", 1)
-        return "hanzoui", "Hanzo Studio_frontend", None
+        return "hanzoui", "HanzoStudio_frontend", None
 
     else:
         raise ValueError(f"Invalid frontend PR reference format: {pr_ref}")
