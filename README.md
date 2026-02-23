@@ -128,7 +128,7 @@ Comfy provides commands that allow you to easily run the installed Hanzo Studio.
   ```
   comfy launch --frontend-pr "#456"
   comfy launch --frontend-pr "username:branch-name"
-  comfy launch --frontend-pr "https://github.com/hanzoui/studio_frontend/pull/456"
+  comfy launch --frontend-pr "https://github.com/hanzoui/frontend/pull/456"
   ```
 
   - The `--frontend-pr` option allows you to test frontend PRs by automatically cloning, building, and using the frontend for that session.
