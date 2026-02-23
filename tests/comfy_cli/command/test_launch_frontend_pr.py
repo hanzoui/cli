@@ -30,7 +30,7 @@ def sample_frontend_pr_info():
         number=789,
         head_repo_url="https://github.com/testuser/frontend.git",
         head_branch="test-feature",
-        base_repo_url="https://github.com/hanzoui/studio_frontend.git",
+        base_repo_url="https://github.com/hanzoui/frontend.git",
         base_branch="main",
         title="Test feature for frontend",
         user="testuser",

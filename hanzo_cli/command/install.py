@@ -895,7 +895,7 @@ def handle_temporary_frontend_pr(frontend_pr: str) -> str | None:
 
 def parse_frontend_pr_reference(pr_ref: str) -> tuple[str, str, int | None]:
     """
-    Parse frontend PR reference. Similar to parse_pr_reference but defaults to hanzoui/studio_frontend
+    Parse frontend PR reference. Similar to parse_pr_reference but defaults to hanzoui/frontend
     """
     pr_ref = pr_ref.strip()
 

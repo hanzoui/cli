@@ -21,7 +21,7 @@ def sample_frontend_pr_info():
         number=456,
         head_repo_url="https://github.com/testuser/frontend.git",
         head_branch="feature-branch",
-        base_repo_url="https://github.com/hanzoui/studio_frontend.git",
+        base_repo_url="https://github.com/hanzoui/frontend.git",
         base_branch="main",
         title="Add new feature to frontend",
         user="testuser",
@@ -48,7 +48,7 @@ class TestFrontendPRReferenceParsing:
 
     def test_parse_frontend_github_url_format(self):
         """Test parsing full GitHub PR URL for frontend"""
-        url = "https://github.com/hanzoui/studio_frontend/pull/789"
+        url = "https://github.com/hanzoui/frontend/pull/789"
         repo_owner, repo_name, pr_number = parse_frontend_pr_reference(url)
         assert repo_owner == "hanzoui"
         assert repo_name == "frontend"
