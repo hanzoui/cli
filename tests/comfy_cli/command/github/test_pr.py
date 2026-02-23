@@ -5,9 +5,9 @@ import pytest
 import requests
 from typer.testing import CliRunner
 
-from comfy_cli.cmdline import app, g_exclusivity, g_gpu_exclusivity
-from comfy_cli.command.install import PRInfo, fetch_pr_info, find_pr_by_branch, handle_pr_checkout, parse_pr_reference
-from comfy_cli.git_utils import checkout_pr
+from hanzo_cli.cmdline import app, g_exclusivity, g_gpu_exclusivity
+from hanzo_cli.command.install import PRInfo, fetch_pr_info, find_pr_by_branch, handle_pr_checkout, parse_pr_reference
+from hanzo_cli.git_utils import checkout_pr
 
 
 @pytest.fixture(scope="function")
@@ -21,9 +21,9 @@ def runner():
 def sample_pr_info():
     return PRInfo(
         number=123,
-        head_repo_url="https://github.com/jtydhr88/ComfyUI.git",
+        head_repo_url="https://github.com/jtydhr88/Hanzo Studio.git",
         head_branch="load-3d-nodes",
-        base_repo_url="https://github.com/comfyanonymous/ComfyUI.git",
+        base_repo_url="https://github.com/hanzoai/studio.git",
         base_branch="master",
         title="Add 3D node loading support",
         user="jtydhr88",
@@ -35,23 +35,23 @@ class TestPRReferenceParsing:
     def test_parse_pr_number_format(self):
         """Test parsing #123 format"""
         repo_owner, repo_name, pr_number = parse_pr_reference("#123")
-        assert repo_owner == "comfyanonymous"
-        assert repo_name == "ComfyUI"
+        assert repo_owner == "hanzoai"
+        assert repo_name == "Hanzo Studio"
         assert pr_number == 123
 
     def test_parse_user_branch_format(self):
         """Test parsing username:branch format"""
         repo_owner, repo_name, pr_number = parse_pr_reference("jtydhr88:load-3d-nodes")
         assert repo_owner == "jtydhr88"
-        assert repo_name == "ComfyUI"
+        assert repo_name == "Hanzo Studio"
         assert pr_number is None
 
     def test_parse_github_url_format(self):
         """Test parsing full GitHub PR URL"""
-        url = "https://github.com/comfyanonymous/ComfyUI/pull/456"
+        url = "https://github.com/hanzoai/studio/pull/456"
         repo_owner, repo_name, pr_number = parse_pr_reference(url)
-        assert repo_owner == "comfyanonymous"
-        assert repo_name == "ComfyUI"
+        assert repo_owner == "hanzoai"
+        assert repo_name == "Hanzo Studio"
         assert pr_number == 456
 
     def test_parse_invalid_format(self):
@@ -78,15 +78,15 @@ class TestGitHubAPIIntegration:
             "number": 123,
             "title": "Add 3D node loading support",
             "head": {
-                "repo": {"clone_url": "https://github.com/jtydhr88/ComfyUI.git", "owner": {"login": "jtydhr88"}},
+                "repo": {"clone_url": "https://github.com/jtydhr88/Hanzo Studio.git", "owner": {"login": "jtydhr88"}},
                 "ref": "load-3d-nodes",
             },
-            "base": {"repo": {"clone_url": "https://github.com/comfyanonymous/ComfyUI.git"}, "ref": "master"},
+            "base": {"repo": {"clone_url": "https://github.com/hanzoai/studio.git"}, "ref": "master"},
             "mergeable": True,
         }
         mock_get.return_value = mock_response
 
-        result = fetch_pr_info("comfyanonymous", "ComfyUI", 123)
+        result = fetch_pr_info("hanzoai", "Hanzo Studio", 123)
 
         assert result.number == 123
         assert result.title == "Add 3D node loading support"
@@ -103,7 +103,7 @@ class TestGitHubAPIIntegration:
         mock_get.return_value = mock_response
 
         with pytest.raises(Exception, match="Failed to fetch PR"):
-            fetch_pr_info("comfyanonymous", "ComfyUI", 999)
+            fetch_pr_info("hanzoai", "Hanzo Studio", 999)
 
     @patch("requests.get")
     def test_fetch_pr_info_rate_limit(self, mock_get):
@@ -114,7 +114,7 @@ class TestGitHubAPIIntegration:
         mock_get.return_value = mock_response
 
         with pytest.raises(Exception, match="Primary rate limit from Github exceeded!"):
-            fetch_pr_info("comfyanonymous", "ComfyUI", 123)
+            fetch_pr_info("hanzoai", "Hanzo Studio", 123)
 
     @patch("requests.get")
     def test_find_pr_by_branch_success(self, mock_get):
@@ -126,16 +126,16 @@ class TestGitHubAPIIntegration:
                 "number": 456,
                 "title": "Test PR",
                 "head": {
-                    "repo": {"clone_url": "https://github.com/testuser/ComfyUI.git", "owner": {"login": "testuser"}},
+                    "repo": {"clone_url": "https://github.com/testuser/Hanzo Studio.git", "owner": {"login": "testuser"}},
                     "ref": "test-branch",
                 },
-                "base": {"repo": {"clone_url": "https://github.com/comfyanonymous/ComfyUI.git"}, "ref": "master"},
+                "base": {"repo": {"clone_url": "https://github.com/hanzoai/studio.git"}, "ref": "master"},
                 "mergeable": True,
             }
         ]
         mock_get.return_value = mock_response
 
-        result = find_pr_by_branch("comfyanonymous", "ComfyUI", "testuser", "test-branch")
+        result = find_pr_by_branch("hanzoai", "Hanzo Studio", "testuser", "test-branch")
 
         assert result is not None
         assert result.number == 456
@@ -151,7 +151,7 @@ class TestGitHubAPIIntegration:
         mock_response.json.return_value = []
         mock_get.return_value = mock_response
 
-        result = find_pr_by_branch("comfyanonymous", "ComfyUI", "testuser", "nonexistent-branch")
+        result = find_pr_by_branch("hanzoai", "Hanzo Studio", "testuser", "nonexistent-branch")
         assert result is None
 
     @patch("requests.get")
@@ -159,7 +159,7 @@ class TestGitHubAPIIntegration:
         """Test error when searching PR by branch"""
         mock_get.side_effect = requests.RequestException("Network error")
 
-        result = find_pr_by_branch("comfyanonymous", "ComfyUI", "testuser", "test-branch")
+        result = find_pr_by_branch("hanzoai", "Hanzo Studio", "testuser", "test-branch")
         assert result is None
 
 
@@ -200,12 +200,12 @@ class TestGitOperations:
 
         pr_info = PRInfo(
             number=123,
-            head_repo_url="https://github.com/comfyanonymous/ComfyUI.git",
+            head_repo_url="https://github.com/hanzoai/studio.git",
             head_branch="feature-branch",
-            base_repo_url="https://github.com/comfyanonymous/ComfyUI.git",
+            base_repo_url="https://github.com/hanzoai/studio.git",
             base_branch="master",
             title="Feature branch",
-            user="comfyanonymous",
+            user="hanzoai",
             mergeable=True,
         )
 
@@ -237,11 +237,11 @@ class TestGitOperations:
 class TestHandlePRCheckout:
     """Test the main PR checkout handler"""
 
-    @patch("comfy_cli.command.install.parse_pr_reference")
-    @patch("comfy_cli.command.install.fetch_pr_info")
-    @patch("comfy_cli.command.install.checkout_pr")
-    @patch("comfy_cli.command.install.clone_comfyui")
-    @patch("comfy_cli.ui.prompt_confirm_action")
+    @patch("hanzo_cli.command.install.parse_pr_reference")
+    @patch("hanzo_cli.command.install.fetch_pr_info")
+    @patch("hanzo_cli.command.install.checkout_pr")
+    @patch("hanzo_cli.command.install.clone_comfyui")
+    @patch("hanzo_cli.ui.prompt_confirm_action")
     @patch("os.path.exists")
     @patch("os.makedirs")
     def test_handle_pr_checkout_success(
@@ -256,18 +256,18 @@ class TestHandlePRCheckout:
         sample_pr_info,
     ):
         """Test successful PR checkout handling"""
-        mock_parse.return_value = ("jtydhr88", "ComfyUI", 123)
+        mock_parse.return_value = ("jtydhr88", "Hanzo Studio", 123)
         mock_fetch.return_value = sample_pr_info
         mock_exists.side_effect = [True, False]  # Parent exists, repo doesn't
         mock_confirm.return_value = True
         mock_checkout.return_value = True
 
-        with patch("comfy_cli.command.install.workspace_manager") as mock_ws:
+        with patch("hanzo_cli.command.install.workspace_manager") as mock_ws:
             mock_ws.skip_prompting = False
 
             result = handle_pr_checkout("jtydhr88:load-3d-nodes", "/path/to/comfy")
 
-            assert result == "https://github.com/comfyanonymous/ComfyUI.git"
+            assert result == "https://github.com/hanzoai/studio.git"
             mock_clone.assert_called_once()
             mock_checkout.assert_called_once()
 
@@ -275,7 +275,7 @@ class TestHandlePRCheckout:
 class TestCommandLineIntegration:
     """Test command line integration"""
 
-    @patch("comfy_cli.command.install.execute")
+    @patch("hanzo_cli.command.install.execute")
     def test_install_with_pr_parameter(self, mock_execute, runner):
         """Test install command with --pr parameter"""
         result = runner.invoke(app, ["install", "--pr", "jtydhr88:load-3d-nodes", "--nvidia", "--skip-prompt"])
@@ -306,9 +306,9 @@ class TestPRInfoDataClass:
         """Test is_fork property returns True for fork"""
         pr_info = PRInfo(
             number=123,
-            head_repo_url="https://github.com/user/ComfyUI.git",
+            head_repo_url="https://github.com/user/Hanzo Studio.git",
             head_branch="branch",
-            base_repo_url="https://github.com/comfyanonymous/ComfyUI.git",
+            base_repo_url="https://github.com/hanzoai/studio.git",
             base_branch="master",
             title="Title",
             user="user",
@@ -320,12 +320,12 @@ class TestPRInfoDataClass:
         """Test is_fork property returns False for same repo"""
         pr_info = PRInfo(
             number=123,
-            head_repo_url="https://github.com/comfyanonymous/ComfyUI.git",
+            head_repo_url="https://github.com/hanzoai/studio.git",
             head_branch="feature",
-            base_repo_url="https://github.com/comfyanonymous/ComfyUI.git",
+            base_repo_url="https://github.com/hanzoai/studio.git",
             base_branch="master",
             title="Title",
-            user="comfyanonymous",
+            user="hanzoai",
             mergeable=True,
         )
         assert pr_info.is_fork is False
@@ -337,8 +337,8 @@ class TestEdgeCases:
     def test_parse_pr_reference_whitespace(self):
         """Test parsing with whitespace"""
         repo_owner, repo_name, pr_number = parse_pr_reference("  #123  ")
-        assert repo_owner == "comfyanonymous"
-        assert repo_name == "ComfyUI"
+        assert repo_owner == "hanzoai"
+        assert repo_name == "Hanzo Studio"
         assert pr_number == 123
 
     @patch("requests.get")

@@ -4,8 +4,8 @@ import os
 
 import requests
 
-# Reduced global imports from comfy_cli.registry
-from comfy_cli.registry.types import (
+# Reduced global imports from hanzo_cli.registry
+from hanzo_cli.registry.types import (
     License,
     Node,
     NodeVersion,
@@ -23,9 +23,9 @@ class RegistryAPI:
         if env == "dev":
             return "http://localhost:8080"
         elif env == "staging":
-            return "https://stagingapi.comfy.org"
+            return "https://stagingapi.hanzo.ai"
         else:
-            return "https://api.comfy.org"
+            return "https://api.hanzo.ai"
 
     def publish_node_version(self, node_config: PyProjectConfig, token) -> PublishNodeVersionResponse:
         """
@@ -57,16 +57,16 @@ class RegistryAPI:
                 "banner_url": node_config.tool_comfy.banner_url,
                 "supported_os": node_config.project.supported_os,
                 "supported_accelerators": node_config.project.supported_accelerators,
-                "supported_comfyui_version": node_config.project.supported_comfyui_version,
-                "supported_comfyui_frontend_version": node_config.project.supported_comfyui_frontend_version,
+                "supported_hanzo_studio_version": node_config.project.supported_hanzo_studio_version,
+                "supported_hanzo_studio_frontend_version": node_config.project.supported_hanzo_studio_frontend_version,
             },
             "node_version": {
                 "version": node_config.project.version,
                 "dependencies": node_config.project.dependencies,
                 "supported_os": node_config.project.supported_os,
                 "supported_accelerators": node_config.project.supported_accelerators,
-                "supported_comfyui_version": node_config.project.supported_comfyui_version,
-                "supported_comfyui_frontend_version": node_config.project.supported_comfyui_frontend_version,
+                "supported_hanzo_studio_version": node_config.project.supported_hanzo_studio_version,
+                "supported_hanzo_studio_frontend_version": node_config.project.supported_hanzo_studio_frontend_version,
             },
         }
         print(request_body)

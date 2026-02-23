@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from comfy_cli.registry import PyProjectConfig
-from comfy_cli.registry.api import RegistryAPI
-from comfy_cli.registry.types import ComfyConfig, License, ProjectConfig, URLs
+from hanzo_cli.registry import PyProjectConfig
+from hanzo_cli.registry.api import RegistryAPI
+from hanzo_cli.registry.types import ComfyConfig, License, ProjectConfig, URLs
 
 
 class TestRegistryAPI(unittest.TestCase):
@@ -35,7 +35,7 @@ class TestRegistryAPI(unittest.TestCase):
     @patch("os.getenv")
     def test_determine_base_url_prod(self, mock_getenv):
         mock_getenv.return_value = "prod"
-        self.assertEqual(self.registry_api.determine_base_url(), "https://api.comfy.org")
+        self.assertEqual(self.registry_api.determine_base_url(), "https://api.hanzo.ai")
 
     @patch("requests.post")
     def test_publish_node_version_success(self, mock_post):

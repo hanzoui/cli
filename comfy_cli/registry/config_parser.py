@@ -6,8 +6,8 @@ import tomlkit
 import tomlkit.exceptions
 import typer
 
-from comfy_cli import ui
-from comfy_cli.registry.types import (
+from hanzo_cli import ui
+from hanzo_cli.registry.types import (
     ComfyConfig,
     License,
     Model,
@@ -36,17 +36,17 @@ def create_comfynode_config():
 
     # Create the tool table
     tool = tomlkit.table()
-    document.add(tomlkit.comment(" Used by Comfy Registry https://registry.comfy.org"))
+    document.add(tomlkit.comment(" Used by Comfy Registry https://registry.hanzo.ai"))
 
     comfy = tomlkit.table()
     comfy["PublisherId"] = ""
-    comfy["DisplayName"] = "ComfyUI-AIT"
+    comfy["DisplayName"] = "Hanzo Studio-AIT"
     comfy["Icon"] = ""
     comfy["includes"] = tomlkit.array()
 
-    # Add uncommentable hint for ComfyUI version compatibility, below of "[tool.comfy].includes" field.
+    # Add uncommentable hint for Hanzo Studio version compatibility, below of "[tool.comfy].includes" field.
     comfy["includes"].comment("""
-# "requires-comfyui" = ">=1.0.0"  # ComfyUI version compatibility
+# "requires-comfyui" = ">=1.0.0"  # Hanzo Studio version compatibility
 """)
 
     tool.add("comfy", comfy)
@@ -69,18 +69,18 @@ def create_comfynode_config():
 
 
 def sanitize_node_name(name: str) -> str:
-    """Remove common ComfyUI-related prefixes from a string.
+    """Remove common Hanzo Studio-related prefixes from a string.
 
     Args:
         name: The string to process
 
     Returns:
-        The string with any ComfyUI-related prefix removed
+        The string with any Hanzo Studio-related prefix removed
     """
     name = name.lower()
     prefixes = [
-        "comfyui-",
-        "comfyui_",
+        "hanzo-studio-",
+        "hanzo_studio_",
         "comfy-",
         "comfy_",
         "comfy",
@@ -266,45 +266,45 @@ def extract_node_configuration(
     comfy_data = data.get("tool", {}).get("comfy", {})
 
     dependencies = project_data.get("dependencies", [])
-    supported_comfyui_frontend_version = ""
+    supported_hanzo_studio_frontend_version = ""
     for dep in dependencies:
-        if isinstance(dep, str) and dep.startswith("comfyui-frontend-package"):
-            supported_comfyui_frontend_version = dep.removeprefix("comfyui-frontend-package")
+        if isinstance(dep, str) and dep.startswith("hanzo-studio-frontend-package"):
+            supported_hanzo_studio_frontend_version = dep.removeprefix("hanzo-studio-frontend-package")
             break
 
-    # Remove the ComfyUI-frontend dependency from the dependencies list
+    # Remove the Hanzo Studio-frontend dependency from the dependencies list
     dependencies = [
-        dep for dep in dependencies if not (isinstance(dep, str) and dep.startswith("comfyui-frontend-package"))
+        dep for dep in dependencies if not (isinstance(dep, str) and dep.startswith("hanzo-studio-frontend-package"))
     ]
 
-    supported_comfyui_version = data.get("tool", {}).get("comfy", {}).get("requires-comfyui", "")
+    supported_hanzo_studio_version = data.get("tool", {}).get("comfy", {}).get("requires-comfyui", "")
 
     classifiers = project_data.get("classifiers", [])
     supported_os = validate_and_extract_os_classifiers(classifiers)
     supported_accelerators = validate_and_extract_accelerator_classifiers(classifiers)
-    supported_comfyui_version = validate_version(supported_comfyui_version, "requires-comfyui")
-    supported_comfyui_frontend_version = validate_version(
-        supported_comfyui_frontend_version, "comfyui-frontend-package"
+    supported_hanzo_studio_version = validate_version(supported_hanzo_studio_version, "requires-comfyui")
+    supported_hanzo_studio_frontend_version = validate_version(
+        supported_hanzo_studio_frontend_version, "hanzo-studio-frontend-package"
     )
 
     license_data = project_data.get("license", {})
     if isinstance(license_data, str):
         license = License(text=license_data)
         typer.echo(
-            'Warning: License should be in one of these two formats: license = {file = "LICENSE"} OR license = {text = "MIT License"}. Please check the documentation: https://docs.comfy.org/registry/specifications.'
+            'Warning: License should be in one of these two formats: license = {file = "LICENSE"} OR license = {text = "MIT License"}. Please check the documentation: https://docs.hanzo.ai/registry/specifications.'
         )
     elif isinstance(license_data, dict):
         if "file" in license_data or "text" in license_data:
             license = License(file=license_data.get("file", ""), text=license_data.get("text", ""))
         else:
             typer.echo(
-                'Warning: License should be in one of these two formats: license = {file = "LICENSE"} OR license = {text = "MIT License"}. Please check the documentation: https://docs.comfy.org/registry/specifications.'
+                'Warning: License should be in one of these two formats: license = {file = "LICENSE"} OR license = {text = "MIT License"}. Please check the documentation: https://docs.hanzo.ai/registry/specifications.'
             )
             license = License()
     else:
         license = License()
         typer.echo(
-            'Warning: License should be in one of these two formats: license = {file = "LICENSE"} OR license = {text = "MIT License"}. Please check the documentation: https://docs.comfy.org/registry/specifications.'
+            'Warning: License should be in one of these two formats: license = {file = "LICENSE"} OR license = {text = "MIT License"}. Please check the documentation: https://docs.hanzo.ai/registry/specifications.'
         )
 
     project = ProjectConfig(
@@ -322,8 +322,8 @@ def extract_node_configuration(
         ),
         supported_os=supported_os,
         supported_accelerators=supported_accelerators,
-        supported_comfyui_version=supported_comfyui_version,
-        supported_comfyui_frontend_version=supported_comfyui_frontend_version,
+        supported_hanzo_studio_version=supported_hanzo_studio_version,
+        supported_hanzo_studio_frontend_version=supported_hanzo_studio_frontend_version,
     )
 
     comfy = ComfyConfig(

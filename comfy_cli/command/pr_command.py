@@ -11,8 +11,8 @@ from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 
-from comfy_cli import tracking
-from comfy_cli.pr_cache import PRCache
+from hanzo_cli import tracking
+from hanzo_cli.pr_cache import PRCache
 
 app = typer.Typer(help="Manage PR cache")
 console = Console()

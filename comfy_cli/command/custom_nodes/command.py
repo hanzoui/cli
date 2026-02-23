@@ -11,23 +11,23 @@ import typer
 from rich import print
 from rich.console import Console
 
-from comfy_cli import logging, tracking, ui, utils
-from comfy_cli.command.custom_nodes.bisect_custom_nodes import bisect_app
-from comfy_cli.command.custom_nodes.cm_cli_util import execute_cm_cli
-from comfy_cli.config_manager import ConfigManager
-from comfy_cli.constants import NODE_ZIP_FILENAME
-from comfy_cli.file_utils import (
+from hanzo_cli import logging, tracking, ui, utils
+from hanzo_cli.command.custom_nodes.bisect_custom_nodes import bisect_app
+from hanzo_cli.command.custom_nodes.cm_cli_util import execute_cm_cli
+from hanzo_cli.config_manager import ConfigManager
+from hanzo_cli.constants import NODE_ZIP_FILENAME
+from hanzo_cli.file_utils import (
     download_file,
     extract_package_as_zip,
     upload_file_to_signed_url,
     zip_files,
 )
-from comfy_cli.registry import (
+from hanzo_cli.registry import (
     RegistryAPI,
     extract_node_configuration,
     initialize_project_config,
 )
-from comfy_cli.workspace_manager import WorkspaceManager
+from hanzo_cli.workspace_manager import WorkspaceManager
 
 console = Console()
 app = typer.Typer()
@@ -48,27 +48,27 @@ class ShowTarget(str, Enum):
     SNAPSHOT_LIST = "snapshot-list"
 
 
-def validate_comfyui_manager(_env_checker):
-    manager_path = _env_checker.get_comfyui_manager_path()
+def validate_hanzo_studio_manager(_env_checker):
+    manager_path = _env_checker.get_hanzo_studio_manager_path()
 
     if manager_path is None:
-        print("[bold red]If ComfyUI is not installed, this feature cannot be used.[/bold red]")
+        print("[bold red]If Hanzo Studio is not installed, this feature cannot be used.[/bold red]")
         raise typer.Exit(code=1)
     elif not os.path.exists(manager_path):
         print(
-            f"[bold red]If ComfyUI-Manager is not installed, this feature cannot be used.[/bold red] \\[{manager_path}]"
+            f"[bold red]If Hanzo Manager is not installed, this feature cannot be used.[/bold red] \\[{manager_path}]"
         )
         raise typer.Exit(code=1)
     elif not os.path.exists(os.path.join(manager_path, ".git")):
         print(
-            f"[bold red]The ComfyUI-Manager installation is invalid. This feature cannot be used.[/bold red] \\[{manager_path}]"
+            f"[bold red]The Hanzo Manager installation is invalid. This feature cannot be used.[/bold red] \\[{manager_path}]"
         )
         raise typer.Exit(code=1)
 
 
 def run_script(cmd, cwd="."):
     if len(cmd) > 0 and cmd[0].startswith("#"):
-        print(f"[ComfyUI-Manager] Unexpected behavior: `{cmd}`")
+        print(f"[Hanzo Manager] Unexpected behavior: `{cmd}`")
         return 0
 
     subprocess.check_call(cmd, cwd=cwd)
@@ -96,7 +96,7 @@ def get_installed_packages():
 
                     pip_map[y[0]] = y[1]
         except subprocess.CalledProcessError:
-            print("[ComfyUI-Manager] Failed to retrieve the information of installed pip packages.")
+            print("[Hanzo Manager] Failed to retrieve the information of installed pip packages.")
             return set()
 
     return pip_map
@@ -126,10 +126,10 @@ def try_install_script(repo_path, install_cmd, instant_execution=False):
         # From Yoland: Disable blacklisting
         # if len(install_cmd) == 5 and install_cmd[2:4] == ['pip', 'install']:
         #     if is_blacklisted(install_cmd[4]):
-        #         print(f"[ComfyUI-Manager] skip black listed pip installation: '{install_cmd[4]}'")
+        #         print(f"[Hanzo Manager] skip black listed pip installation: '{install_cmd[4]}'")
         #         return True
 
-        print(f"\n## ComfyUI-Manager: EXECUTE => {install_cmd}")
+        print(f"\n## Hanzo Manager: EXECUTE => {install_cmd}")
         code = run_script(install_cmd, cwd=repo_path)
 
         # From Yoland: Disable warning
@@ -137,8 +137,8 @@ def try_install_script(repo_path, install_cmd, instant_execution=False):
         #     try:
         #         if comfy_ui_commit_datetime.date() < comfy_ui_required_commit_datetime.date():
         #             print("\n\n###################################################################")
-        #             print(f"[WARN] ComfyUI-Manager: Your ComfyUI version ({comfy_ui_revision})[{comfy_ui_commit_datetime.date()}] is too old. Please update to the latest version.")
-        #             print(f"[WARN] The extension installation feature may not work properly in the current installed ComfyUI version on Windows environment.")
+        #             print(f"[WARN] Hanzo Manager: Your Hanzo Studio version ({comfy_ui_revision})[{comfy_ui_commit_datetime.date()}] is too old. Please update to the latest version.")
+        #             print(f"[WARN] The extension installation feature may not work properly in the current installed Hanzo Studio version on Windows environment.")
         #             print("###################################################################\n\n")
         #     except:
         #         pass
@@ -178,7 +178,7 @@ def execute_install_script(repo_path):
         try_install_script(repo_path, install_cmd)
 
 
-@app.command("save-snapshot", help="Save a snapshot of the current ComfyUI environment")
+@app.command("save-snapshot", help="Save a snapshot of the current Hanzo Studio environment")
 @tracking.track_command("node")
 def save_snapshot(
     output: Annotated[
@@ -234,19 +234,19 @@ def restore_dependencies():
     execute_cm_cli(["restore-dependencies"])
 
 
-@manager_app.command("disable-gui", help="Disable GUI mode of ComfyUI-Manager")
+@manager_app.command("disable-gui", help="Disable GUI mode of Hanzo Manager")
 @tracking.track_command("node")
 def disable_gui():
     execute_cm_cli(["cli-only-mode", "enable"])
 
 
-@manager_app.command("enable-gui", help="Enable GUI mode of ComfyUI-Manager")
+@manager_app.command("enable-gui", help="Enable GUI mode of Hanzo Manager")
 @tracking.track_command("node")
 def enable_gui():
     execute_cm_cli(["cli-only-mode", "disable"])
 
 
-@manager_app.command(help="Clear reserved startup action in ComfyUI-Manager")
+@manager_app.command(help="Clear reserved startup action in Hanzo Manager")
 @tracking.track_command("node")
 def clear():
     execute_cm_cli(["clear"])
@@ -479,7 +479,7 @@ def update_node_id_cache():
     config_manager = ConfigManager()
     workspace_path = workspace_manager.workspace_path
 
-    cm_cli_path = os.path.join(workspace_path, "custom_nodes", "ComfyUI-Manager", "cm-cli.py")
+    cm_cli_path = os.path.join(workspace_path, "custom_nodes", "Hanzo Manager", "cm-cli.py")
 
     tmp_path = os.path.join(config_manager.get_config_path(), "tmp")
     if not os.path.exists(tmp_path):
@@ -494,7 +494,7 @@ def update_node_id_cache():
 
 
 # `update, disable, enable, fix` allows `all` param
-@app.command(help="Update custom nodes or ComfyUI")
+@app.command(help="Update custom nodes or Hanzo Studio")
 @tracking.track_command("node")
 def update(
     nodes: list[str] = typer.Argument(
@@ -750,7 +750,7 @@ def publish(
     # Prompt for API Key
     if not token:
         token = typer.prompt(
-            "Please enter your API Key (can be created on https://registry.comfy.org)",
+            "Please enter your API Key (can be created on https://registry.hanzo.ai)",
             hide_input=True,
         )
 
@@ -931,10 +931,10 @@ def pack():
     logging.info("Node has been packed successfully.")
 
 
-@app.command("scaffold", help="Create a new ComfyUI custom node project using cookiecutter")
+@app.command("scaffold", help="Create a new Hanzo Studio custom node project using cookiecutter")
 @tracking.track_command("node")
 def scaffold_cookiecutter():
-    """Create a new ComfyUI custom node project using cookiecutter."""
+    """Create a new Hanzo Studio custom node project using cookiecutter."""
     import cookiecutter.main
 
     try:

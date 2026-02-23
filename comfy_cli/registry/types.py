@@ -72,8 +72,8 @@ class ProjectConfig:
     urls: URLs = field(default_factory=URLs)
     supported_os: list[str] = field(default_factory=list)
     supported_accelerators: list[str] = field(default_factory=list)
-    supported_comfyui_version: str = ""
-    supported_comfyui_frontend_version: str = ""
+    supported_hanzo_studio_version: str = ""
+    supported_hanzo_studio_frontend_version: str = ""
 
 
 @dataclass

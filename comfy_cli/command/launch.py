@@ -12,11 +12,11 @@ from rich import print
 from rich.console import Console
 from rich.panel import Panel
 
-from comfy_cli import constants, utils
-from comfy_cli.config_manager import ConfigManager
-from comfy_cli.env_checker import check_comfy_server_running
-from comfy_cli.update import check_for_updates
-from comfy_cli.workspace_manager import WorkspaceManager, WorkspaceType
+from hanzo_cli import constants, utils
+from hanzo_cli.config_manager import ConfigManager
+from hanzo_cli.env_checker import check_comfy_server_running
+from hanzo_cli.update import check_for_updates
+from hanzo_cli.workspace_manager import WorkspaceManager, WorkspaceType
 
 workspace_manager = WorkspaceManager()
 console = Console()
@@ -38,7 +38,7 @@ def launch_comfyui(extra, frontend_pr=None):
 
     # Handle temporary frontend PR
     if frontend_pr:
-        from comfy_cli.command.install import handle_temporary_frontend_pr
+        from hanzo_cli.command.install import handle_temporary_frontend_pr
 
         try:
             frontend_path = handle_temporary_frontend_pr(frontend_pr)
@@ -58,7 +58,7 @@ def launch_comfyui(extra, frontend_pr=None):
             res = subprocess.run([sys.executable, "main.py"] + extra, env=new_env, check=False)
 
             if reboot_path is None:
-                print("[bold red]ComfyUI is not installed.[/bold red]\n")
+                print("[bold red]Hanzo Studio is not installed.[/bold red]\n")
                 exit(res)
 
             if not os.path.exists(reboot_path):
@@ -106,7 +106,7 @@ def launch_comfyui(extra, frontend_pr=None):
                 process.wait()
 
                 if reboot_path is None:
-                    print("[bold red]ComfyUI is not installed.[/bold red]\n")
+                    print("[bold red]Hanzo Studio is not installed.[/bold red]\n")
                     os._exit(process.pid)
 
                 if not os.path.exists(reboot_path):
@@ -128,7 +128,7 @@ def launch(
 
     if not resolved_workspace:
         print(
-            "\nComfyUI is not available.\nTo install ComfyUI, you can run:\n\n\tcomfy install\n\n",
+            "\nHanzo Studio is not available.\nTo install Hanzo Studio, you can run:\n\n\tcomfy install\n\n",
             file=sys.stderr,
         )
         raise typer.Exit(code=1)
@@ -141,7 +141,7 @@ def launch(
         if launch_extras != "":
             extra = launch_extras.split(" ")
 
-    print(f"\nLaunching ComfyUI from: {resolved_workspace}\n")
+    print(f"\nLaunching Hanzo Studio from: {resolved_workspace}\n")
 
     # Update the recent workspace
     workspace_manager.set_recent_workspace(resolved_workspace)
@@ -157,7 +157,7 @@ def background_launch(extra, frontend_pr=None):
     config_background = ConfigManager().background
     if config_background is not None and utils.is_running(config_background[2]):
         console.print(
-            "[bold red]ComfyUI is already running in background.\nYou cannot start more than one background service.[/bold red]\n"
+            "[bold red]Hanzo Studio is already running in background.\nYou cannot start more than one background service.[/bold red]\n"
         )
         raise typer.Exit(code=1)
 
@@ -178,7 +178,7 @@ def background_launch(extra, frontend_pr=None):
 
     if check_comfy_server_running(port):
         console.print(
-            f"[bold red]The {port} port is already in use. A new ComfyUI server cannot be launched.\n[bold red]\n"
+            f"[bold red]The {port} port is already in use. A new Hanzo Studio server cannot be launched.\n[bold red]\n"
         )
         raise typer.Exit(code=1)
 
@@ -201,12 +201,12 @@ def background_launch(extra, frontend_pr=None):
         console.print(
             Panel(
                 "".join(log),
-                title="[bold red]Error log during ComfyUI execution[/bold red]",
+                title="[bold red]Error log during Hanzo Studio execution[/bold red]",
                 border_style="bright_red",
             )
         )
 
-    console.print("\n[bold red]Execution error: failed to launch ComfyUI[/bold red]\n")
+    console.print("\n[bold red]Execution error: failed to launch Hanzo Studio[/bold red]\n")
     # NOTE: os.exit(0) doesn't work
     os._exit(1)
 
@@ -253,11 +253,11 @@ async def launch_and_monitor(cmd, listen, port):
 
         while True:
             line = stream.readline()
-            if "Launching ComfyUI from:" in line:
+            if "Launching Hanzo Studio from:" in line:
                 logging_flag = True
             elif "To see the GUI go to:" in line:
                 print(
-                    f"[bold yellow]ComfyUI is successfully launched in the background.[/bold yellow]\nTo see the GUI go to: http://{listen}:{port}"
+                    f"[bold yellow]Hanzo Studio is successfully launched in the background.[/bold yellow]\nTo see the GUI go to: http://{listen}:{port}"
                 )
                 ConfigManager().config["DEFAULT"][constants.CONFIG_KEY_BACKGROUND] = f"{(listen, port, process.pid)}"
                 ConfigManager().write_config()

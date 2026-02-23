@@ -1,5 +1,5 @@
 [run]
-source = comfy_cli
+source = hanzo_cli
 omit = tests/*
 
 [report]

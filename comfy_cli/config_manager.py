@@ -2,8 +2,8 @@ import configparser
 import os
 from importlib.metadata import version
 
-from comfy_cli import constants, logging
-from comfy_cli.utils import get_os, is_running, singleton
+from hanzo_cli import constants, logging
+from hanzo_cli.utils import get_os, is_running, singleton
 
 
 @singleton
@@ -107,28 +107,28 @@ class ConfigManager:
         if self.config.has_option("DEFAULT", constants.CONFIG_KEY_DEFAULT_WORKSPACE):
             data.append(
                 (
-                    "Default ComfyUI workspace",
+                    "Default Hanzo Studio workspace",
                     self.config["DEFAULT"][constants.CONFIG_KEY_DEFAULT_WORKSPACE],
                 )
             )
             launch_extras = self.config["DEFAULT"].get(constants.CONFIG_KEY_DEFAULT_LAUNCH_EXTRAS, "")
         else:
-            data.append(("Default ComfyUI workspace", "No default ComfyUI workspace"))
+            data.append(("Default Hanzo Studio workspace", "No default Hanzo Studio workspace"))
 
         if launch_extras == "":
             launch_extras = "[bold red]None[/bold red]"
 
-        data.append(("Default ComfyUI launch extra options", launch_extras))
+        data.append(("Default Hanzo Studio launch extra options", launch_extras))
 
         if self.config.has_option("DEFAULT", constants.CONFIG_KEY_RECENT_WORKSPACE):
             data.append(
                 (
-                    "Recent ComfyUI workspace",
+                    "Recent Hanzo Studio workspace",
                     self.config["DEFAULT"][constants.CONFIG_KEY_RECENT_WORKSPACE],
                 )
             )
         else:
-            data.append(("Recent ComfyUI workspace", "No recent run"))
+            data.append(("Recent Hanzo Studio workspace", "No recent run"))
 
         tracking = self.get_bool(constants.CONFIG_KEY_ENABLE_TRACKING)
         if tracking is not None:
@@ -144,12 +144,12 @@ class ConfigManager:
             if bg_info:
                 data.append(
                     (
-                        "Background ComfyUI",
+                        "Background Hanzo Studio",
                         f"http://{bg_info[0]}:{bg_info[1]} (pid={bg_info[2]})",
                     )
                 )
         else:
-            data.append(("Background ComfyUI", "[bold red]No[/bold red]"))
+            data.append(("Background Hanzo Studio", "[bold red]No[/bold red]"))
 
         return data
 
@@ -160,9 +160,9 @@ class ConfigManager:
 
     def get_cli_version(self):
         # Note: this approach should work for users installing the CLI via
-        # PyPi and Homebrew (e.g., pip install comfy-cli)
+        # PyPi and Homebrew (e.g., pip install hanzo-cli)
         try:
-            return version("comfy-cli")
+            return version("hanzo-cli")
         except Exception as e:
             logging.debug(f"Error occurred while retrieving CLI version using importlib.metadata: {e}")
 

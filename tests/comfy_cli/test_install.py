@@ -1,6 +1,6 @@
 import pytest
 
-from comfy_cli.command.install import validate_version
+from hanzo_cli.command.install import validate_version
 
 
 def test_validate_version_nightly():

@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - "comfy_cli/**"
+      - "hanzo_cli/**"
       - "!.github/**"
       - "!tests/**"
       - "!.coveragerc"
@@ -13,7 +13,7 @@ on:
     branches:
       - main
     paths:
-      - "comfy_cli/**"
+      - "hanzo_cli/**"
       - "!.github/**"
       - "!tests/**"
       - "!.coveragerc"

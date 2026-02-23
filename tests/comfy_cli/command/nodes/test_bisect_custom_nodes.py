@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import pytest
 
-from comfy_cli.command.custom_nodes.bisect_custom_nodes import BisectState
+from hanzo_cli.command.custom_nodes.bisect_custom_nodes import BisectState
 
 
 @pytest.fixture(scope="function")
@@ -60,7 +60,7 @@ def test_bad_resolved():
     assert new_state.active == []
 
 
-@patch("comfy_cli.command.custom_nodes.bisect_custom_nodes.execute_cm_cli")
+@patch("hanzo_cli.command.custom_nodes.bisect_custom_nodes.execute_cm_cli")
 def test_save(mock_execute_cm_cli, bisect_state, tmp_path):
     state_file = tmp_path / "bisect_state.json"
     bisect_state.save(state_file)
@@ -71,7 +71,7 @@ def test_save(mock_execute_cm_cli, bisect_state, tmp_path):
     assert saved_state == bisect_state._asdict()
 
 
-@patch("comfy_cli.command.custom_nodes.bisect_custom_nodes.execute_cm_cli")
+@patch("hanzo_cli.command.custom_nodes.bisect_custom_nodes.execute_cm_cli")
 def test_reset(mock_execute_cm_cli, bisect_state):
     new_state = bisect_state.reset()
     assert new_state.status == "idle"
@@ -108,13 +108,13 @@ def test_load_nonexistent_state(tmp_path):
     assert loaded_state.active == []
 
 
-@patch("comfy_cli.command.custom_nodes.bisect_custom_nodes.execute_cm_cli")
+@patch("hanzo_cli.command.custom_nodes.bisect_custom_nodes.execute_cm_cli")
 def test_set_custom_node_enabled_states(mock_execute_cm_cli, bisect_state):
     bisect_state.set_custom_node_enabled_states()
     assert mock_execute_cm_cli.call_count == 2
 
 
-@patch("comfy_cli.command.custom_nodes.bisect_custom_nodes.execute_cm_cli")
+@patch("hanzo_cli.command.custom_nodes.bisect_custom_nodes.execute_cm_cli")
 def test_set_custom_node_enabled_states_no_active_nodes(mock_execute_cm_cli):
     bisect_state = BisectState(
         status="running",

@@ -2,13 +2,13 @@ from unittest.mock import mock_open, patch
 
 import pytest
 
-from comfy_cli.registry.config_parser import (
+from hanzo_cli.registry.config_parser import (
     extract_node_configuration,
     validate_and_extract_accelerator_classifiers,
     validate_and_extract_os_classifiers,
     validate_version,
 )
-from comfy_cli.registry.types import (
+from hanzo_cli.registry.types import (
     License,
     Model,
     PyProjectConfig,
@@ -190,8 +190,8 @@ def test_extract_node_configuration_with_accelerator_classifiers():
         assert "GPU :: Apple Metal" in result.project.supported_accelerators
 
 
-def test_extract_node_configuration_with_comfyui_version():
-    mock_data = {"project": {"dependencies": ["packge1>=2.0.0", "comfyui-frontend-package>=1.2.3", "package2>=1.0.0"]}}
+def test_extract_node_configuration_with_hanzo_studio_version():
+    mock_data = {"project": {"dependencies": ["packge1>=2.0.0", "hanzo-studio-frontend-package>=1.2.3", "package2>=1.0.0"]}}
     with (
         patch("os.path.isfile", return_value=True),
         patch("builtins.open", mock_open()),
@@ -200,9 +200,9 @@ def test_extract_node_configuration_with_comfyui_version():
         result = extract_node_configuration("fake_path.toml")
 
         assert result is not None
-        assert result.project.supported_comfyui_frontend_version == ">=1.2.3"
+        assert result.project.supported_hanzo_studio_frontend_version == ">=1.2.3"
         assert len(result.project.dependencies) == 2
-        assert "comfyui-frontend-package>=1.2.3" not in result.project.dependencies
+        assert "hanzo-studio-frontend-package>=1.2.3" not in result.project.dependencies
         assert "packge1>=2.0.0" in result.project.dependencies
         assert "package2>=1.0.0" in result.project.dependencies
 
@@ -217,7 +217,7 @@ def test_extract_node_configuration_with_requires_comfyui():
         result = extract_node_configuration("fake_path.toml")
 
         assert result is not None
-        assert result.project.supported_comfyui_version == "2.0.0"
+        assert result.project.supported_hanzo_studio_version == "2.0.0"
 
 
 def test_validate_and_extract_os_classifiers_valid():

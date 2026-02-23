@@ -9,11 +9,11 @@ import requests
 import typer
 from rich import print
 
-from comfy_cli import constants, tracking, ui
-from comfy_cli.config_manager import ConfigManager
-from comfy_cli.constants import DEFAULT_COMFY_MODEL_PATH
-from comfy_cli.file_utils import DownloadException, check_unauthorized, download_file
-from comfy_cli.workspace_manager import WorkspaceManager
+from hanzo_cli import constants, tracking, ui
+from hanzo_cli.config_manager import ConfigManager
+from hanzo_cli.constants import DEFAULT_COMFY_MODEL_PATH
+from hanzo_cli.file_utils import DownloadException, check_unauthorized, download_file
+from hanzo_cli.workspace_manager import WorkspaceManager
 
 app = typer.Typer()
 

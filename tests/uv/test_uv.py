@@ -3,9 +3,9 @@ from pathlib import Path
 
 import pytest
 
-from comfy_cli import ui
-from comfy_cli.constants import GPU_OPTION
-from comfy_cli.uv import DependencyCompiler
+from hanzo_cli import ui
+from hanzo_cli.constants import GPU_OPTION
+from hanzo_cli.uv import DependencyCompiler
 
 hereDir = Path(__file__).parent.resolve()
 mockComfyDir = hereDir / "mock_comfy"

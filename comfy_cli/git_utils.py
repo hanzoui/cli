@@ -5,7 +5,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 
-from comfy_cli.command.github.pr_info import PRInfo
+from hanzo_cli.command.github.pr_info import PRInfo
 
 console = Console()
 

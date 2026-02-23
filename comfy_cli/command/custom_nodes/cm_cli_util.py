@@ -8,9 +8,9 @@ import uuid
 import typer
 from rich import print
 
-from comfy_cli.config_manager import ConfigManager
-from comfy_cli.uv import DependencyCompiler
-from comfy_cli.workspace_manager import WorkspaceManager
+from hanzo_cli.config_manager import ConfigManager
+from hanzo_cli.uv import DependencyCompiler
+from hanzo_cli.workspace_manager import WorkspaceManager
 
 workspace_manager = WorkspaceManager()
 
@@ -27,13 +27,13 @@ def execute_cm_cli(args, channel=None, fast_deps=False, no_deps=False, mode=None
     workspace_path = workspace_manager.workspace_path
 
     if not workspace_path:
-        print("\n[bold red]ComfyUI path is not resolved.[/bold red]\n", file=sys.stderr)
+        print("\n[bold red]Hanzo Studio path is not resolved.[/bold red]\n", file=sys.stderr)
         raise typer.Exit(code=1)
 
-    cm_cli_path = os.path.join(workspace_path, "custom_nodes", "ComfyUI-Manager", "cm-cli.py")
+    cm_cli_path = os.path.join(workspace_path, "custom_nodes", "Hanzo Manager", "cm-cli.py")
     if not os.path.exists(cm_cli_path):
         print(
-            f"\n[bold red]ComfyUI-Manager not found: {cm_cli_path}[/bold red]\n",
+            f"\n[bold red]Hanzo Manager not found: {cm_cli_path}[/bold red]\n",
             file=sys.stderr,
         )
         raise typer.Exit(code=1)

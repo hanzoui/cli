@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - comfy_cli/**
+      - hanzo_cli/**
 
 permissions:
   contents: read
@@ -32,5 +32,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
           pip install -e .
-          comfy --skip-prompt --workspace ./ComfyUI install --fast-deps --nvidia --cuda-version 12.6 --skip-manager
+          comfy --skip-prompt --workspace ./Hanzo Studio install --fast-deps --nvidia --cuda-version 12.6 --skip-manager
           comfy --here launch -- --cpu --quick-test-for-ci

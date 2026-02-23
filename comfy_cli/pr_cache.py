@@ -13,7 +13,7 @@ from pathlib import Path
 
 from rich import print as rprint
 
-from comfy_cli.config_manager import ConfigManager
+from hanzo_cli.config_manager import ConfigManager
 
 
 class PRCache:

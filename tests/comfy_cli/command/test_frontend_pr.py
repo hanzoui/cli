@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 import pytest
 from typer.testing import CliRunner
 
-from comfy_cli.command.install import (
+from hanzo_cli.command.install import (
     PRInfo,
     parse_frontend_pr_reference,
     verify_node_tools,
@@ -19,9 +19,9 @@ def runner():
 def sample_frontend_pr_info():
     return PRInfo(
         number=456,
-        head_repo_url="https://github.com/testuser/ComfyUI_frontend.git",
+        head_repo_url="https://github.com/testuser/Hanzo Studio_frontend.git",
         head_branch="feature-branch",
-        base_repo_url="https://github.com/Comfy-Org/ComfyUI_frontend.git",
+        base_repo_url="https://github.com/hanzoui/studio_frontend.git",
         base_branch="main",
         title="Add new feature to frontend",
         user="testuser",
@@ -35,23 +35,23 @@ class TestFrontendPRReferenceParsing:
     def test_parse_frontend_pr_number_format(self):
         """Test parsing #123 format for frontend"""
         repo_owner, repo_name, pr_number = parse_frontend_pr_reference("#456")
-        assert repo_owner == "Comfy-Org"
-        assert repo_name == "ComfyUI_frontend"
+        assert repo_owner == "hanzoui"
+        assert repo_name == "Hanzo Studio_frontend"
         assert pr_number == 456
 
     def test_parse_frontend_user_branch_format(self):
         """Test parsing username:branch format for frontend"""
         repo_owner, repo_name, pr_number = parse_frontend_pr_reference("testuser:feature-branch")
-        assert repo_owner == "Comfy-Org"
-        assert repo_name == "ComfyUI_frontend"
+        assert repo_owner == "hanzoui"
+        assert repo_name == "Hanzo Studio_frontend"
         assert pr_number is None
 
     def test_parse_frontend_github_url_format(self):
         """Test parsing full GitHub PR URL for frontend"""
-        url = "https://github.com/Comfy-Org/ComfyUI_frontend/pull/789"
+        url = "https://github.com/hanzoui/studio_frontend/pull/789"
         repo_owner, repo_name, pr_number = parse_frontend_pr_reference(url)
-        assert repo_owner == "Comfy-Org"
-        assert repo_name == "ComfyUI_frontend"
+        assert repo_owner == "hanzoui"
+        assert repo_name == "Hanzo Studio_frontend"
         assert pr_number == 789
 
     def test_parse_frontend_custom_repo_url(self):

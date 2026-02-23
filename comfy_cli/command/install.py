@@ -13,13 +13,13 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Confirm
 
-from comfy_cli import constants, ui
-from comfy_cli.command.custom_nodes.command import update_node_id_cache
-from comfy_cli.command.github.pr_info import PRInfo
-from comfy_cli.constants import GPU_OPTION
-from comfy_cli.git_utils import checkout_pr, git_checkout_tag
-from comfy_cli.uv import DependencyCompiler
-from comfy_cli.workspace_manager import WorkspaceManager, check_comfy_repo
+from hanzo_cli import constants, ui
+from hanzo_cli.command.custom_nodes.command import update_node_id_cache
+from hanzo_cli.command.github.pr_info import PRInfo
+from hanzo_cli.constants import GPU_OPTION
+from hanzo_cli.git_utils import checkout_pr, git_checkout_tag
+from hanzo_cli.uv import DependencyCompiler
+from hanzo_cli.workspace_manager import WorkspaceManager, check_comfy_repo
 
 workspace_manager = WorkspaceManager()
 console = Console()
@@ -31,7 +31,7 @@ def get_os_details():
     return os_name, os_version
 
 
-def pip_install_comfyui_dependencies(
+def pip_install_hanzo_studio_dependencies(
     repo_dir,
     gpu: GPU_OPTION,
     plat: constants.OS,
@@ -102,7 +102,7 @@ def pip_install_comfyui_dependencies(
                 check=False,
             )
         # Update installation to use upstream torch xpu. ipex is no longer needed for Intel Arc GPUs
-        # https://github.com/comfyanonymous/ComfyUI/pull/7767
+        # https://github.com/hanzoai/studio/pull/7767
         if gpu == GPU_OPTION.INTEL_ARC:
             pip_url = [
                 "--extra-index-url",
@@ -175,13 +175,13 @@ def pip_install_comfyui_dependencies(
         return
     result = subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=False)
     if result.returncode != 0:
-        rprint("Failed to install ComfyUI dependencies. Please check your environment (`comfy env`) and try again.")
+        rprint("Failed to install Hanzo Studio dependencies. Please check your environment (`comfy env`) and try again.")
         sys.exit(1)
 
 
 # install requirements for manager
 def pip_install_manager_dependencies(repo_dir):
-    os.chdir(os.path.join(repo_dir, "custom_nodes", "ComfyUI-Manager"))
+    os.chdir(os.path.join(repo_dir, "custom_nodes", "Hanzo Manager"))
     subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=True)
 
 
@@ -204,13 +204,13 @@ def execute(
     *args,
     **kwargs,
 ):
-    # Install ComfyUI from a given PR reference.
+    # Install Hanzo Studio from a given PR reference.
     if pr:
         url = handle_pr_checkout(pr, comfy_path)
         version = "nightly"
 
     """
-    Install ComfyUI from a given URL.
+    Install Hanzo Studio from a given URL.
     """
     if not workspace_manager.skip_prompting:
         res = ui.prompt_confirm_action(f"Install from {url} to {comfy_path}?", True)
@@ -234,12 +234,12 @@ def execute(
         try:
             checkout_stable_comfyui(version=version, repo_dir=repo_dir)
         except GitHubRateLimitError as e:
-            rprint(f"[bold red]Error checking out ComfyUI version: {e}[/bold red]")
+            rprint(f"[bold red]Error checking out Hanzo Studio version: {e}[/bold red]")
             sys.exit(1)
 
     elif not check_comfy_repo(repo_dir)[0]:
         rprint(
-            f"[bold red]'{repo_dir}' already exists. But it is an invalid ComfyUI repository. Remove it and retry.[/bold red]"
+            f"[bold red]'{repo_dir}' already exists. But it is an invalid Hanzo Studio repository. Remove it and retry.[/bold red]"
         )
         sys.exit(-1)
 
@@ -249,28 +249,28 @@ def execute(
         subprocess.run(["git", "checkout", commit], check=True)
 
     if not fast_deps:
-        pip_install_comfyui_dependencies(repo_dir, gpu, plat, cuda_version, skip_torch_or_directml, skip_requirement)
+        pip_install_hanzo_studio_dependencies(repo_dir, gpu, plat, cuda_version, skip_torch_or_directml, skip_requirement)
 
     WorkspaceManager().set_recent_workspace(repo_dir)
     workspace_manager.setup_workspace_manager(specified_workspace=repo_dir)
 
     rprint("")
 
-    # install ComfyUI-Manager
+    # install Hanzo Manager
     if skip_manager:
-        rprint("Skipping installation of ComfyUI-Manager. (by --skip-manager)")
+        rprint("Skipping installation of Hanzo Manager. (by --skip-manager)")
     else:
-        manager_repo_dir = os.path.join(repo_dir, "custom_nodes", "ComfyUI-Manager")
+        manager_repo_dir = os.path.join(repo_dir, "custom_nodes", "Hanzo Manager")
 
         if os.path.exists(manager_repo_dir):
             if restore and not fast_deps:
                 pip_install_manager_dependencies(repo_dir)
             else:
                 rprint(
-                    f"Directory {manager_repo_dir} already exists. Skipping installation of ComfyUI-Manager.\nIf you want to restore dependencies, add the '--restore' option."
+                    f"Directory {manager_repo_dir} already exists. Skipping installation of Hanzo Manager.\nIf you want to restore dependencies, add the '--restore' option."
                 )
         else:
-            rprint("\nInstalling ComfyUI-Manager..")
+            rprint("\nInstalling Hanzo Manager..")
 
             if "@" in manager_url:
                 # clone specific branch
@@ -315,7 +315,7 @@ def handle_pr_checkout(pr_ref: str, comfy_path: str) -> str:
             pr_info = fetch_pr_info(repo_owner, repo_name, pr_number)
         else:
             username, branch = pr_ref.split(":", 1)
-            pr_info = find_pr_by_branch("comfyanonymous", "ComfyUI", username, branch)
+            pr_info = find_pr_by_branch("hanzoai", "Hanzo Studio", username, branch)
 
         if not pr_info:
             rprint(f"[bold red]PR not found: {pr_ref}[/bold red]")
@@ -338,7 +338,7 @@ def handle_pr_checkout(pr_ref: str, comfy_path: str) -> str:
     )
 
     if not workspace_manager.skip_prompting:
-        if not ui.prompt_confirm_action(f"Install ComfyUI from PR #{pr_info.number}?", True):
+        if not ui.prompt_confirm_action(f"Install Hanzo Studio from PR #{pr_info.number}?", True):
             rprint("Aborting...")
             raise typer.Exit(code=1)
 
@@ -429,7 +429,7 @@ class GithubRelease(TypedDict):
 
 def clone_comfyui(url: str, repo_dir: str):
     """
-    Clone the ComfyUI repository from the specified URL.
+    Clone the Hanzo Studio repository from the specified URL.
     """
     if "@" in url:
         # clone specific branch
@@ -443,9 +443,9 @@ def checkout_stable_comfyui(version: str, repo_dir: str):
     """
     Supports installing stable releases of Comfy (semantic versioning) or the 'latest' version.
     """
-    rprint(f"Looking for ComfyUI version '{version}'...")
+    rprint(f"Looking for Hanzo Studio version '{version}'...")
     if version == "latest":
-        selected_release = get_latest_release("comfyanonymous", "ComfyUI")
+        selected_release = get_latest_release("hanzoai", "Hanzo Studio")
         if selected_release is None:
             rprint(f"Error: No release found for version '{version}'.")
             sys.exit(1)
@@ -456,8 +456,8 @@ def checkout_stable_comfyui(version: str, repo_dir: str):
 
     console.print(
         Panel(
-            f"Checking out ComfyUI version: [bold cyan]{tag}[/bold cyan]",
-            title="[yellow]ComfyUI Checkout[/yellow]",
+            f"Checking out Hanzo Studio version: [bold cyan]{tag}[/bold cyan]",
+            title="[yellow]Hanzo Studio Checkout[/yellow]",
             border_style="green",
             expand=False,
         )
@@ -503,7 +503,7 @@ def parse_pr_reference(pr_ref: str) -> tuple[str, str, int | None]:
     support formats：
     - username:branch-name
     - #123
-    - https://github.com/comfyanonymous/ComfyUI/pull/123
+    - https://github.com/hanzoai/studio/pull/123
 
     Returns:
         (repo_owner, repo_name, pr_number)
@@ -522,11 +522,11 @@ def parse_pr_reference(pr_ref: str) -> tuple[str, str, int | None]:
 
     elif pr_ref.startswith("#"):
         pr_number = int(pr_ref[1:])
-        return "comfyanonymous", "ComfyUI", pr_number
+        return "hanzoai", "Hanzo Studio", pr_number
 
     elif ":" in pr_ref:
         username, branch = pr_ref.split(":", 1)
-        return username, "ComfyUI", None
+        return username, "Hanzo Studio", None
 
     else:
         raise ValueError(f"Invalid PR reference format: {pr_ref}")
@@ -784,7 +784,7 @@ def verify_node_tools() -> bool:
 
 def handle_temporary_frontend_pr(frontend_pr: str) -> str | None:
     """Handle temporary frontend PR for launch - returns path to built frontend"""
-    from comfy_cli.pr_cache import PRCache
+    from hanzo_cli.pr_cache import PRCache
 
     rprint("\n[bold blue]Preparing frontend PR for launch...[/bold blue]")
 
@@ -891,7 +891,7 @@ def handle_temporary_frontend_pr(frontend_pr: str) -> str | None:
 
 def parse_frontend_pr_reference(pr_ref: str) -> tuple[str, str, int | None]:
     """
-    Parse frontend PR reference. Similar to parse_pr_reference but defaults to Comfy-Org/ComfyUI_frontend
+    Parse frontend PR reference. Similar to parse_pr_reference but defaults to hanzoui/studio_frontend
     """
     pr_ref = pr_ref.strip()
 
@@ -907,11 +907,11 @@ def parse_frontend_pr_reference(pr_ref: str) -> tuple[str, str, int | None]:
 
     elif pr_ref.startswith("#"):
         pr_number = int(pr_ref[1:])
-        return "Comfy-Org", "ComfyUI_frontend", pr_number
+        return "hanzoui", "Hanzo Studio_frontend", pr_number
 
     elif ":" in pr_ref:
         username, branch = pr_ref.split(":", 1)
-        return "Comfy-Org", "ComfyUI_frontend", None
+        return "hanzoui", "Hanzo Studio_frontend", None
 
     else:
         raise ValueError(f"Invalid frontend PR reference format: {pr_ref}")

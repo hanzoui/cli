@@ -34,7 +34,7 @@ This guide provides an overview of how to develop in this repository.
 
 2. Verify that all unit tests run successfully.
 
-`pytest --cov=comfy_cli --cov-report=xml .`
+`pytest --cov=hanzo_cli --cov-report=xml .`
 
 ## Debugging
 
@@ -45,7 +45,7 @@ You can add following config to your VSCode `launch.json` to launch debugger.
   "name": "Python Debugger: Run",
   "type": "debugpy",
   "request": "launch",
-  "module": "comfy_cli.__main__",
+  "module": "hanzo_cli.__main__",
   "args": [],
   "console": "integratedTerminal"
 }
@@ -55,7 +55,7 @@ You can add following config to your VSCode `launch.json` to launch debugger.
 
 There is a potential need for you to reinstall the package. You can do this by
 either run `pip install -e .` again (which will reinstall), or manually
-uninstall `pip uninstall comfy-cli` and reinstall, or even cleaning your conda
+uninstall `pip uninstall hanzo-cli` and reinstall, or even cleaning your conda
 env and reinstalling the package (`pip install -e .`)
 
 ## Packaging custom nodes with `.comfyignore`
@@ -86,18 +86,18 @@ same trimmed package.
 
 ## Adding a new command
 
-- Register it under `comfy_cli/cmdline.py`
+- Register it under `hanzo_cli/cmdline.py`
 
-If it's contains subcommand, create folder under comfy_cli/command/[new_command] and
+If it's contains subcommand, create folder under hanzo_cli/command/[new_command] and
 add the following boilerplate
 
-`comfy_cli/command/[new_command]/__init__.py`
+`hanzo_cli/command/[new_command]/__init__.py`
 
 ```
 from .command import app
 ```
 
-`comfy_cli/command/[new_command]command.py`
+`hanzo_cli/command/[new_command]command.py`
 
 ```
 import typer
@@ -123,24 +123,24 @@ def remove(name: str):
 - Use `rich` for all console output
   - For progress reporting, use either [`rich.progress`](https://rich.readthedocs.io/en/stable/progress.html)
 
-## Develop comfy-cli and ComfyUI-Manager (cm-cli) together
+## Develop hanzo-cli and Hanzo Manager (cm-cli) together
 ### Making changes to both
-1. Fork your own branches of `comfy-cli` and `ComfyUI-Manager`, make changes
-2. Be sure to commit any changes to `ComfyUI-Manager` to a new branch, and push to remote
+1. Fork your own branches of `hanzo-cli` and `Hanzo Manager`, make changes
+2. Be sure to commit any changes to `Hanzo Manager` to a new branch, and push to remote
 
 ### Trying changes to both
-1. clone the changed branch of `comfy-cli`, then live install `comfy-cli`:
-  - `pip install -e comfy-cli`
+1. clone the changed branch of `hanzo-cli`, then live install `hanzo-cli`:
+  - `pip install -e hanzo-cli`
 2. Go to a test dir and run:
-  - `comfy --here install --manager-url=<path-or-url-to-fork-of-ComfyUI-Manager>`
+  - `comfy --here install --manager-url=<path-or-url-to-fork-of-Hanzo Manager>`
 3. Run:
-  - `cd ComfyUI/custom_nodes/ComfyUI-Manager/ && git checkout <changed-branch> && cd -`
-4. Further changes can be pulled into these copies of the `comfy-cli` and `ComfyUI-Manager` repos
+  - `cd Hanzo Studio/custom_nodes/Hanzo Manager/ && git checkout <changed-branch> && cd -`
+4. Further changes can be pulled into these copies of the `hanzo-cli` and `Hanzo Manager` repos
 
 ### Debugging both simultaneously
 1. Follow instructions above to get working install with changes
 2. Add breakpoints directly to code: `import ipdb; ipdb.set_trace()`
-3. Execute relevant `comfy-cli` command
+3. Execute relevant `hanzo-cli` command
 
 
 ## Contact

@@ -53,7 +53,7 @@ jobs:
       # - name: Install Comfy CLI from Test Pypi and Test
       #   run: |
       #     for i in {1..3}; do
-      #       pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple comfy-cli==${{env.VERSION}} && break || sleep 5
+      #       pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple hanzo-cli==${{env.VERSION}} && break || sleep 5
       #     done
       #     comfy --help
 
@@ -75,7 +75,7 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Install Comfy CLI via pip and Test
-        run: pip install comfy-cli==${{env.VERSION}}
+        run: pip install hanzo-cli==${{env.VERSION}}
 
       - name: Test Comfy CLI Help
         run: comfy --help
@@ -87,7 +87,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          repository: 'Comfy-Org/homebrew-comfy-cli'
+          repository: 'hanzoui/homebrew-cli'
           token: ${{ secrets.COMMITTER_TOKEN }}
           path: 'homebrew-repo'
 
@@ -102,31 +102,31 @@ jobs:
           pip install homebrew-pypi-poet
 
           for i in {1..3}; do
-            pip install comfy-cli==${{env.VERSION}} && break || sleep 5
+            pip install hanzo-cli==${{env.VERSION}} && break || sleep 5
           done
 
       - name: Generate Homebrew Formula
         run: |
           source venv/bin/activate
-          poet -f comfy-cli==$VERSION > comfy-cli.rb
+          poet -f hanzo-cli==$VERSION > hanzo-cli.rb
 
       - name: Move Formulas to Tap Directory
         run: |
-          mv comfy-cli.rb homebrew-repo/Formula/
+          mv hanzo-cli.rb homebrew-repo/Formula/
 
       - name: Install Comfy CLI using Homebrew Formula
         run: |
-          brew install --build-from-source --verbose ./homebrew-repo/Formula/comfy-cli.rb
+          brew install --build-from-source --verbose ./homebrew-repo/Formula/hanzo-cli.rb
           comfy --help
-          brew uninstall comfy-cli
+          brew uninstall hanzo-cli
 
       - name: Commit and Push Formula
         run: |
           cd homebrew-repo
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add Formula/comfy-cli.rb
-          git commit -m "Update comfy-cli to latest and version ${VERSION}"
+          git add Formula/hanzo-cli.rb
+          git commit -m "Update hanzo-cli to latest and version ${VERSION}"
           git push
         env:
           GIT_COMMITTER_NAME: github-actions
@@ -142,13 +142,13 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Tap Comfy CLI Homebrew tap repository
-        run: brew tap Comfy-Org/comfy-cli
+        run: brew tap hanzoui/cli
 
-      - name: Install comfy-cli latest via Homebrew
-        run: brew install comfy-org/comfy-cli/comfy-cli
+      - name: Install hanzo-cli latest via Homebrew
+        run: brew install comfy-org/hanzo-cli/hanzo-cli
 
-      - name: Test comfy-cli latest Help
+      - name: Test hanzo-cli latest Help
         run: comfy --help
 
-      - name: Uninstall comfy-cli latest
-        run: brew uninstall comfy-cli
+      - name: Uninstall hanzo-cli latest
+        run: brew uninstall hanzo-cli

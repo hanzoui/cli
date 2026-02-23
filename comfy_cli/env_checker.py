@@ -8,8 +8,8 @@ import sys
 import requests
 from rich.console import Console
 
-from comfy_cli.config_manager import ConfigManager
-from comfy_cli.utils import singleton
+from hanzo_cli.config_manager import ConfigManager
+from hanzo_cli.utils import singleton
 
 console = Console()
 
