@@ -8,9 +8,6 @@ from enum import Enum
 from typing import Annotated
 
 import typer
-from rich import print
-from rich.console import Console
-
 from hanzo_cli import logging, tracking, ui, utils
 from hanzo_cli.command.custom_nodes.bisect_custom_nodes import bisect_app
 from hanzo_cli.command.custom_nodes.cm_cli_util import execute_cm_cli
@@ -28,6 +25,8 @@ from hanzo_cli.registry import (
     initialize_project_config,
 )
 from hanzo_cli.workspace_manager import WorkspaceManager
+from rich import print
+from rich.console import Console
 
 console = Console()
 app = typer.Typer()

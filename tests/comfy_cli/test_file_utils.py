@@ -3,7 +3,6 @@ import zipfile
 from pathlib import Path
 
 import pytest
-
 from hanzo_cli import file_utils
 
 

@@ -6,9 +6,6 @@ from typing import Annotated
 
 import questionary
 import typer
-from rich import print as rprint
-from rich.console import Console
-
 from hanzo_cli import constants, env_checker, logging, tracking, ui, utils
 from hanzo_cli.command import custom_nodes, pr_command
 from hanzo_cli.command import install as install_inner
@@ -23,6 +20,8 @@ from hanzo_cli.standalone import StandalonePython
 from hanzo_cli.update import check_for_updates
 from hanzo_cli.uv import DependencyCompiler
 from hanzo_cli.workspace_manager import WorkspaceManager, check_comfy_repo
+from rich import print as rprint
+from rich.console import Console
 
 logging.setup_logging()
 app = typer.Typer()

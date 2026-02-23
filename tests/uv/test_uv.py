@@ -2,7 +2,6 @@ import shutil
 from pathlib import Path
 
 import pytest
-
 from hanzo_cli import ui
 from hanzo_cli.constants import GPU_OPTION
 from hanzo_cli.uv import DependencyCompiler

@@ -1,7 +1,6 @@
 from unittest.mock import mock_open, patch
 
 import pytest
-
 from hanzo_cli.registry.config_parser import (
     extract_node_configuration,
     validate_and_extract_accelerator_classifiers,
@@ -191,7 +190,9 @@ def test_extract_node_configuration_with_accelerator_classifiers():
 
 
 def test_extract_node_configuration_with_hanzo_studio_version():
-    mock_data = {"project": {"dependencies": ["packge1>=2.0.0", "hanzo-studio-frontend-package>=1.2.3", "package2>=1.0.0"]}}
+    mock_data = {
+        "project": {"dependencies": ["packge1>=2.0.0", "hanzo-studio-frontend-package>=1.2.3", "package2>=1.0.0"]}
+    }
     with (
         patch("os.path.isfile", return_value=True),
         patch("builtins.open", mock_open()),

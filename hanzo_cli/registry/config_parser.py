@@ -5,7 +5,6 @@ import subprocess
 import tomlkit
 import tomlkit.exceptions
 import typer
-
 from hanzo_cli import ui
 from hanzo_cli.registry.types import (
     ComfyConfig,
