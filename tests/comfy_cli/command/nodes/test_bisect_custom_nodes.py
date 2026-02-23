@@ -2,6 +2,7 @@ import json
 from unittest.mock import patch
 
 import pytest
+
 from hanzo_cli.command.custom_nodes.bisect_custom_nodes import BisectState
 
 

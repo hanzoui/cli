@@ -12,11 +12,12 @@ from pathlib import Path
 import psutil
 import requests
 import typer
-from hanzo_cli.constants import DEFAULT_COMFY_WORKSPACE, OS, PROC
-from hanzo_cli.typing import PathLike
 from rich import print, progress
 from rich.live import Live
 from rich.table import Table
+
+from hanzo_cli.constants import DEFAULT_COMFY_WORKSPACE, OS, PROC
+from hanzo_cli.typing import PathLike
 
 
 def singleton(cls):

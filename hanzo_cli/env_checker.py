@@ -6,9 +6,10 @@ import os
 import sys
 
 import requests
+from rich.console import Console
+
 from hanzo_cli.config_manager import ConfigManager
 from hanzo_cli.utils import singleton
-from rich.console import Console
 
 console = Console()
 

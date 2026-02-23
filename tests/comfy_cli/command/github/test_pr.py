@@ -3,10 +3,11 @@ from unittest.mock import Mock, patch
 
 import pytest
 import requests
+from typer.testing import CliRunner
+
 from hanzo_cli.cmdline import app, g_exclusivity, g_gpu_exclusivity
 from hanzo_cli.command.install import PRInfo, fetch_pr_info, find_pr_by_branch, handle_pr_checkout, parse_pr_reference
 from hanzo_cli.git_utils import checkout_pr
-from typer.testing import CliRunner
 
 
 @pytest.fixture(scope="function")

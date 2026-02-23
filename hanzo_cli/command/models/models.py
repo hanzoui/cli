@@ -7,12 +7,13 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 import requests
 import typer
+from rich import print
+
 from hanzo_cli import constants, tracking, ui
 from hanzo_cli.config_manager import ConfigManager
 from hanzo_cli.constants import DEFAULT_COMFY_MODEL_PATH
 from hanzo_cli.file_utils import DownloadException, check_unauthorized, download_file
 from hanzo_cli.workspace_manager import WorkspaceManager
-from rich import print
 
 app = typer.Typer()
 

@@ -1,6 +1,7 @@
 from unittest.mock import mock_open, patch
 
 import pytest
+
 from hanzo_cli.registry.config_parser import (
     extract_node_configuration,
     validate_and_extract_accelerator_classifiers,

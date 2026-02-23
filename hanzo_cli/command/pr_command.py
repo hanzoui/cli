@@ -7,11 +7,12 @@ This module provides CLI commands for managing the PR cache, including:
 """
 
 import typer
-from hanzo_cli import tracking
-from hanzo_cli.pr_cache import PRCache
 from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
+
+from hanzo_cli import tracking
+from hanzo_cli.pr_cache import PRCache
 
 app = typer.Typer(help="Manage PR cache")
 console = Console()

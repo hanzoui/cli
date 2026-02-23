@@ -6,8 +6,9 @@ import zipfile
 
 import httpx
 import requests
-from hanzo_cli import constants, ui
 from pathspec import PathSpec
+
+from hanzo_cli import constants, ui
 
 
 class DownloadException(Exception):

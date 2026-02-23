@@ -4,6 +4,7 @@ from io import StringIO
 from unittest.mock import patch
 
 import pytest
+
 from hanzo_cli.command.install import _print_npm_not_found_help
 
 

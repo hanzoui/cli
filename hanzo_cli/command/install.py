@@ -8,6 +8,11 @@ from urllib.parse import urlparse
 import requests
 import semver
 import typer
+from rich import print as rprint
+from rich.console import Console
+from rich.panel import Panel
+from rich.prompt import Confirm
+
 from hanzo_cli import constants, ui
 from hanzo_cli.command.custom_nodes.command import update_node_id_cache
 from hanzo_cli.command.github.pr_info import PRInfo
@@ -15,10 +20,6 @@ from hanzo_cli.constants import GPU_OPTION
 from hanzo_cli.git_utils import checkout_pr, git_checkout_tag
 from hanzo_cli.uv import DependencyCompiler
 from hanzo_cli.workspace_manager import WorkspaceManager, check_comfy_repo
-from rich import print as rprint
-from rich.console import Console
-from rich.panel import Panel
-from rich.prompt import Confirm
 
 workspace_manager = WorkspaceManager()
 console = Console()

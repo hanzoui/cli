@@ -6,10 +6,11 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
+from typer.testing import CliRunner
+
 from hanzo_cli.cmdline import app
 from hanzo_cli.command.install import PRInfo, handle_temporary_frontend_pr
 from hanzo_cli.pr_cache import PRCache
-from typer.testing import CliRunner
 
 
 @pytest.fixture
